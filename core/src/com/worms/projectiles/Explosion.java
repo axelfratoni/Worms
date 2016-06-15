@@ -83,6 +83,8 @@ public class Explosion {
 		float Xforce = force * MathUtils.cos(angle);
 		float Yforce = force * MathUtils.sin( angle);
 		
+		if(Yforce < 200) 
+			Yforce = 200;
 		
 		System.out.println(" Fuerza X:" + Xforce + " Fuerza Y: " + Yforce);
 		

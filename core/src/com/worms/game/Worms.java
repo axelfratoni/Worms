@@ -85,9 +85,6 @@ public class Worms extends ApplicationAdapter {
 		shoot = false;
 		
 		tiledObjectUtilPrueba = new TiledObjectUtilPrueba(world);
-//		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("collision-layer").getObjects());
-//		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("collision-layer2").getObjects());
-//		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("collision-layer3").getObjects());
 		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("grass-layer").getObjects(), 1);
 		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("dirt-layer").getObjects(), 2);
 		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
@@ -113,7 +110,7 @@ public class Worms extends ApplicationAdapter {
 		teamDraw();
 		batch.end();
 		
-		b2dr.render(world, camera.combined.scl(PPM));
+	//	b2dr.render(world, camera.combined.scl(PPM));
 	}
 	
 	public void cameraUpdate(float delta){

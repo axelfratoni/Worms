@@ -24,7 +24,7 @@ public class Missile extends Projectile{
 	public void shoot( float x){
 		System.out.println(x);
 		super.flagForDeletion();
-		super.setBody(BodyCreators.createBox( x * PPM, 900, super.getTex().getWidth(), super.getTex().getHeight(), false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this));
+		super.setBody(BodyCreators.createBox( x * PPM, 900, super.getTex().getWidth()/4, super.getTex().getHeight()/4, false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this));
 	}
 
 }

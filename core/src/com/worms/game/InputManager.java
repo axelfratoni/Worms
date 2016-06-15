@@ -20,10 +20,16 @@ public class InputManager {
 			if ( validateMovement(player.getPlayer().getPosition().x, player.getStartingPosition())){
 				if ( Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 					horizontalForce = -1f;
+					if(player.getPlayer().getLinearVelocity().epsilonEquals(0,0,1f)){
+						player.getPlayer().applyForceToCenter(500 , 100, false);
+					}
 				}
 				
 				if ( Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 					horizontalForce = 1f;
+					if(player.getPlayer().getLinearVelocity().epsilonEquals(0,0,1f)){
+					player.getPlayer().applyForceToCenter(-500 , 100, false);
+					}
 				}
 				
 				if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){

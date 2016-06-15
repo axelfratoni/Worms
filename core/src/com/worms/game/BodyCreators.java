@@ -32,7 +32,7 @@ public class BodyCreators {
 		fixtureDef.filter.categoryBits = cBits; // Is a
 		fixtureDef.filter.maskBits = mBits; // Collides with
 		fixtureDef.filter.groupIndex = gIndex;
-		pBody = world.createBody(bdef);
+ 		pBody = world.createBody(bdef);
 		pBody.createFixture(fixtureDef).setUserData(o);
 		shape.dispose();
 		
