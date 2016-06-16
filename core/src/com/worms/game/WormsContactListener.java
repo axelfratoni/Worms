@@ -27,18 +27,13 @@ public class WormsContactListener implements ContactListener{
 		
 		
 		if (isProjectilePlayerContact( fa, fb)){
-			Player p;
 			Projectile g;
-			if ( fa.getUserData() instanceof Player){
-				p = (Player) fa.getUserData();
+			if ( fb.getUserData() instanceof Projectile){
 				g = (Projectile) fb.getUserData();
 				System.out.println(fb.getUserData());
-
 			} else {
-				p = (Player) fb.getUserData();
 				g = (Projectile) fa.getUserData();
 				System.out.println(fa.getUserData());
-
 			}
 			if ( !g.getDeletionFlag()){
 				g.explode();

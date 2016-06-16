@@ -1,55 +1,68 @@
 package com.worms.utils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.PolylineMapObject;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class TiledObjectUtil {
+	
 	private World world;
+	private ArrayList<GrassTile> grassTiles;
+	private ArrayList<DirtTile> dirtTiles;
 	
 	public TiledObjectUtil(World world ){
 	this.world = world;
+	grassTiles = new ArrayList<GrassTile>();
+	dirtTiles = new ArrayList<DirtTile>();
 	}
-	
-	public  void parseTiledObjectLayer(MapObjects objects){
-		for (MapObject object: objects) {
-			Shape shape;
-			if( object instanceof  PolylineMapObject){
-				shape = createPolyline((PolylineMapObject) object);
-			} else {
-				continue; /*por si despues queremos crear otros tipos de map objects*/
+
+	public  void parseTiledObjectLayer(MapObjects objects, int i){
+		switch (i){
+		case 1 : 
+			for (MapObject object: objects) {
+				grassTiles.add(new GrassTile (object, world));
 			}
-			Body body;
-			BodyDef bdef = new BodyDef();
-			bdef.type = BodyDef.BodyType.StaticBody;
-			body = world.createBody(bdef);
-			
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = shape;
-			fixtureDef.density = 1f;
-			body.createFixture(fixtureDef).setUserData(this);
-			shape.dispose();
+			break;
+		case 2 : 
+			for (MapObject object: objects) {
+				dirtTiles.add(new DirtTile (object, world));
+			}
+			break;
+		case 3 : 
+			for (MapObject object: objects) {
+				new MapLimit (object, world);
+			}
+			break;
+		default : break;
 		}
 	}
 	
-	private ChainShape createPolyline(PolylineMapObject polyline){
-		float [] vertices = polyline.getPolyline().getTransformedVertices();
-		Vector2[] worldVertices = new Vector2[vertices.length / 2];
-		
-		for (int i = 0; i < worldVertices.length ; i++){
-			worldVertices[i] = new Vector2(vertices[i * 2 ] / Constants.PPM, vertices [i * 2 + 1] / Constants.PPM);
-			
-		}
-		ChainShape cs = new ChainShape();
-		cs.createChain(worldVertices);
-		
-		return cs;
+	public ArrayList<GrassTile> getGrassTiles(){
+		return grassTiles;
+	}
+	
+	public ArrayList<DirtTile> getDirtTiles(){
+		return dirtTiles;
+	}
+	public void cleanTiles(){
+		Tile t;
+ 		for (Iterator<GrassTile> it = grassTiles.iterator(); it.hasNext(); ) {
+ 	 		
+ 		    t = it.next();
+ 		    if (t.isFlaggedForDeletion() ) {
+ 		    	t.dispose();
+ 				it.remove();
+ 		    }
+ 		}
+ 		for (Iterator<DirtTile> it = dirtTiles.iterator(); it.hasNext(); ) {
+ 		    t = it.next();
+ 		    if (t.isFlaggedForDeletion() ) {
+ 		    	t.dispose();
+ 				it.remove();
+ 		    }
+ 		}
 	}
 }

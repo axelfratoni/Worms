@@ -44,3 +44,9 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.print(classpath)
   }
 }
+
+apply plugin: 'java'
+
+dependencies {
+  testCompile 'junit:junit:4.12'
+}

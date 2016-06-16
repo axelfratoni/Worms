@@ -31,7 +31,7 @@ import com.worms.projectiles.Explosion;
 import com.worms.projectiles.Missile;
 import com.worms.utils.DebugString;
 import com.worms.utils.Tile;
-import com.worms.utils.TiledObjectUtilPrueba;
+import com.worms.utils.TiledObjectUtil;
 
 public class Worms extends ApplicationAdapter {
 	
@@ -44,7 +44,7 @@ public class Worms extends ApplicationAdapter {
 	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap map;
-	private TiledObjectUtilPrueba tiledObjectUtilPrueba;
+	private TiledObjectUtil tiledObjectUtil;
 
 	private Draw drawsManager;
 	private Player playerWhoseTurnItIs;
@@ -84,10 +84,10 @@ public class Worms extends ApplicationAdapter {
 		cameraIsLocked = true;
 		shoot = false;
 		
-		tiledObjectUtilPrueba = new TiledObjectUtilPrueba(world);
-		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("grass-layer").getObjects(), 1);
-		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("dirt-layer").getObjects(), 2);
-		tiledObjectUtilPrueba.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
+		tiledObjectUtil = new TiledObjectUtil(world);
+		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("grass-layer").getObjects(), 1);
+		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("dirt-layer").getObjects(), 2);
+		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
 		drawsManager = new Draw(batch,world);
 		
 		bodiesToBeDeleted = new ArrayList<Body>();
@@ -147,7 +147,7 @@ public class Worms extends ApplicationAdapter {
 		}else {
 			playerWhoseTurnItIs = Teams.getPlayerWhoseTurnItIs();
 		}
-		tiledObjectUtilPrueba.cleanTiles();
+		tiledObjectUtil.cleanTiles();
 		world.step( 1/60f, 6, 2);
 		if (playerWhoseTurnItIs.isShooting()){
 			playerWhoseTurnItIs.shoot();
@@ -178,11 +178,11 @@ public class Worms extends ApplicationAdapter {
 	
 	
 	public void teamDraw(){	
-		for (Tile t: tiledObjectUtilPrueba.getGrassTiles()){
+		for (Tile t: tiledObjectUtil.getGrassTiles()){
 			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t.getTex() );
 			drawsManager.drawTile(dT);
 		}
-		for (Tile t: tiledObjectUtilPrueba.getDirtTiles()){
+		for (Tile t: tiledObjectUtil.getDirtTiles()){
 			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t.getTex() );
 			drawsManager.drawTile(dT);
 		}

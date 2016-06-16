@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Player;
 import com.worms.game.Teams;
 import com.worms.game.Worms;
-import com.worms.utils.GrassTile;
 import com.worms.utils.Tile;
 
 

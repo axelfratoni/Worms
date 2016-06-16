@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.bars.Bar;
 
 public class Teams {
 	
