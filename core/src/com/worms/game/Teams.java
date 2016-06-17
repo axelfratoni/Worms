@@ -16,6 +16,12 @@ public class Teams {
 	private static int CHAR1_TURN = 0;
 	private static int CHAR2_TURN = 0;
 	
+	/**
+	 * Creates the teams.
+	 *
+	 * @param world the world
+	 * @return true, if successful
+	 */
 	public static boolean createTeams(World world) {
 		
 	if(team1 == null && team2 == null){
@@ -37,23 +43,13 @@ public class Teams {
 		return true;
 	}
 	return false;
-//		team1 = new ArrayList<Player>();
-//		team2 = new ArrayList<Player>();
-//		
-//		team1.add(new Player( 198, 300, "Images/Redworm.png", world, 1, false));
-//		team1.add(new Player( 772, 337, "Images/Redworm.png", world, 1, true));
-//		team1.add(new Player( 430, 700, "Images/Redworm.png", world, 1, false));
-//		team1.add(new Player( 1400, 300, "Images/Redworm.png", world, 1, true));
-//		
-//		team2.add(new Player( 644 , 600, "Images/Blueworm.png", world, 2, false));
-//		team2.add(new Player( 1100, 700, "Images/Blueworm.png", world, 2, true));
-//		team2.add(new Player( 246, 432, "Images/Blueworm.png", world, 2, false));
-//		team2.add(new Player( 1400, 432, "Images/Blueworm.png", world, 2, true));
-//		
-//		team1size = team1.size();
-//		team2size = team2.size();
 	}
-	
+	/**
+	 * Gets the team.
+	 *
+	 * @param i the i
+	 * @return the team
+	 */
 	public static ArrayList<Player> getTeam(int i){
 		switch (i){
 		case 1 : return team1;
@@ -61,10 +57,21 @@ public class Teams {
 		default : return null;
 		}
 	}
+	
+	/**
+	 * Someone lost.
+	 *
+	 * @return true, if successful
+	 */
 	public static boolean someoneLost(){
 		return (team1.size() == 0) || (team2.size() == 0);
 	}
 	
+	/**
+	 * Gets the player whose turn it is.
+	 *
+	 * @return the player whose turn it is
+	 */
 	public static Player getPlayerWhoseTurnItIs(){
 		if ( TEAMS_TURN % 2 == 0){
 			return team1.get(CHAR1_TURN % team1.size());
@@ -73,6 +80,9 @@ public class Teams {
 		}
 	}
 	
+	/**
+	 * Update turn.
+	 */
 	public static void updateTurn(){
 		if ( team1.size() < team1size){
 			CHAR1_TURN -= team1size - team1.size();
@@ -92,7 +102,10 @@ public class Teams {
 		TEAMS_TURN++;
 	}
 	
- 	public static void checkPlayersHealth(){
+ 	/**
+	  * Check players health.
+	  */
+	 public static void checkPlayersHealth(){
  		Player p;
  		for (Iterator<Player> it = team1.iterator(); it.hasNext(); ) {
  		
@@ -112,6 +125,9 @@ public class Teams {
  		}
  		}
  	
+	/**
+	 * Dispose.
+	 */
 	public static void dispose(){
  		Player p;
  		for (Iterator<Player> it = team1.iterator(); it.hasNext(); ) {
@@ -126,6 +142,15 @@ public class Teams {
  		    }
  		}
 	
+	/**
+	 * Load teams.
+	 *
+	 * @param t1 the t1
+	 * @param t2 the t2
+	 * @param posT1 the pos t1
+	 * @param posT2 the pos t2
+	 * @param world the world
+	 */
 	public static void loadTeams(ArrayList<Player> t1, ArrayList<Player> t2,ArrayList<Vector2> posT1,ArrayList<Vector2> posT2, World world){
 		team1 = t1;
 		team2 = t2;
@@ -134,6 +159,13 @@ public class Teams {
 		updateTurn();
 	}
 	
+	/**
+	 * Load players.
+	 *
+	 * @param team the team
+	 * @param posTeam the pos team
+	 * @param world the world
+	 */
 	public static void loadPlayers(ArrayList<Player> team, ArrayList<Vector2> posTeam, World world){
 		Player p;
 		Vector2 pos;
@@ -146,6 +178,12 @@ public class Teams {
  		}
 	}
 	
+	/**
+	 * Gets the pos team.
+	 *
+	 * @param i the i
+	 * @return the pos team
+	 */
 	public static ArrayList<Vector2> getPosTeam(int i){
 		Player P;
 		Vector2 Pos;

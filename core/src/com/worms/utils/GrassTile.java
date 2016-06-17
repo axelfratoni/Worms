@@ -8,6 +8,12 @@ import com.badlogic.gdx.physics.box2d.World;
 @SuppressWarnings("serial")
 public class GrassTile extends Tile implements Serializable{
 	
+	/**
+	 * Instantiates a new grass tile.
+	 *
+	 * @param object the object
+	 * @param world the world
+	 */
 	public GrassTile(MapObject object, World world) {
 		super( object, world, "Images/Grasstile.png");
 	}

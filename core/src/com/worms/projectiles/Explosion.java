@@ -19,6 +19,15 @@ public class Explosion {
 	private Texture explTex;
 	private float time;
 
+	/**
+	 * Instantiates a new explosion.
+	 *
+	 * @param explRadius the expl radius
+	 * @param damage the damage
+	 * @param pos the pos
+	 * @param world the world
+	 * @param tex the tex
+	 */
 	public Explosion(float explRadius, float damage, Vector2 pos, World world, Texture tex) {
 		GameState.setExplosion(this);
 		
@@ -32,6 +41,12 @@ public class Explosion {
 		getObjectsInRange(pos.x-explRadius/2,pos.y-explRadius/2,pos.x+explRadius/2,pos.y+explRadius/2);
 	}
 	
+	/**
+	 * Update.
+	 *
+	 * @param delta the delta
+	 * @return true, if successful
+	 */
 	public boolean update(float delta){
 		time+=delta;
 
@@ -45,6 +60,15 @@ public class Explosion {
 		}
 	}
 	
+	/**
+	 * Gets the objects in range.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param x2 the x2
+	 * @param y2 the y2
+	 * @return the objects in range
+	 */
 	public void getObjectsInRange(float x, float y, float x2, float y2) {
 		world.QueryAABB(new QueryCallback() {
 	        @Override
@@ -70,6 +94,11 @@ public class Explosion {
 	    }, Math.min(x, x2), Math.min(y, y2), Math.max(x, x2), Math.max(y, y2));
 	}
 	
+	/**
+	 * Apply force.
+	 *
+	 * @param player the player
+	 */
 	public void applyForce(Player player){
 		float playPosX = player.getPlayer().getPosition().x;
 		float playPosY = player.getPlayer().getPosition().y;
@@ -88,26 +117,57 @@ public class Explosion {
 	}
 	
 	
+	/**
+	 * Gets the expl radius.
+	 *
+	 * @return the expl radius
+	 */
 	public float getExplRadius() {
 		return explRadius;
 	}
 
+	/**
+	 * Gets the damage.
+	 *
+	 * @return the damage
+	 */
 	public float getDamage() {
 		return damage;
 	}
 
+	/**
+	 * Gets the pos.
+	 *
+	 * @return the pos
+	 */
 	public Vector2 getPos() {
 		return pos;
 	}
 
+	/**
+	 * Gets the expl tex.
+	 *
+	 * @return the expl tex
+	 */
 	public Texture getExplTex() {
 		return explTex;
 	}
 
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		explTex.dispose();
 	}
+	
+	/**
+	 * Gets the distance.
+	 *
+	 * @param pos1 the pos1
+	 * @param pos2 the pos2
+	 * @return the distance
+	 */
 	private float getDistance( Vector2 pos1, Vector2 pos2){
 		return (float) Math.sqrt( Math.pow(pos1.x - pos2.x,2) + Math.pow( pos1.y - pos2.y,2) ) ; 
 	}

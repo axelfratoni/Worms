@@ -13,12 +13,23 @@ public class TiledObjectUtil {
 	private ArrayList<GrassTile> grassTiles;
 	private ArrayList<DirtTile> dirtTiles;
 	
+	/**
+	 * Instantiates a new tiled object util.
+	 *
+	 * @param world the world
+	 */
 	public TiledObjectUtil(World world ){
 	this.world = world;
 	grassTiles = new ArrayList<GrassTile>();
 	dirtTiles = new ArrayList<DirtTile>();
 	}
 
+	/**
+	 * Parses the tiled object layer.
+	 *
+	 * @param objects the objects
+	 * @param i the i
+	 */
 	public  void parseTiledObjectLayer(MapObjects objects, int i){
 		switch (i){
 		case 1 : 
@@ -40,6 +51,12 @@ public class TiledObjectUtil {
 		}
 	}
 	
+	/**
+	 * Parses the tiled object layer.
+	 *
+	 * @param dirttiles the dirttiles
+	 * @param grasstiles the grasstiles
+	 */
 	public void parseTiledObjectLayer(ArrayList<DirtTile> dirttiles, ArrayList<GrassTile> grasstiles){
 		dirtTiles = dirttiles;
 		grassTiles = grasstiles;
@@ -56,13 +73,27 @@ public class TiledObjectUtil {
 	}
 	
 	
+	/**
+	 * Gets the grass tiles.
+	 *
+	 * @return the grass tiles
+	 */
 	public ArrayList<GrassTile> getGrassTiles(){
 		return grassTiles;
 	}
 	
+	/**
+	 * Gets the dirt tiles.
+	 *
+	 * @return the dirt tiles
+	 */
 	public ArrayList<DirtTile> getDirtTiles(){
 		return dirtTiles;
 	}
+	
+	/**
+	 * Clean tiles.
+	 */
 	public void cleanTiles(){
 		Tile t;
  		for (Iterator<GrassTile> it = grassTiles.iterator(); it.hasNext(); ) {

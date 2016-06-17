@@ -9,13 +9,20 @@ import com.worms.game.InputManager;
 import com.worms.utils.WormsTextInputListener;
 
 public class BeginState {
+	
 	private SpriteBatch batch;
+	
 	private boolean end;
 	private Sprite mainMenu;
 	private InputManager iM;
 	private WormsTextInputListener listener ;
 
 	
+	/**
+	 * Instantiates a new begin state.
+	 *
+	 * @param batch the batch
+	 */
 	public BeginState(SpriteBatch batch) {
 		this.batch = batch;
 		end = false;
@@ -26,6 +33,9 @@ public class BeginState {
 	}
 
 
+	/**
+	 * Render.
+	 */
 	public void render () {
 		update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -35,20 +45,37 @@ public class BeginState {
 		batch.end();
 	}
 	
+	/**
+	 * Update.
+	 */
 	private void update(){
 		if (iM.manageInput(this, listener)){
 		end = true;
 		}
 		
 	}
+	
+	/**
+	 * Gets the listener.
+	 *
+	 * @return the listener
+	 */
 	public WormsTextInputListener getListener(){
 		return listener;
 	}
 	
+	/**
+	 * End.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean end(){
 		return end;
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		
 	}

@@ -12,6 +12,12 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class MapLimit {
 	
+	/**
+	 * Instantiates a new map limit.
+	 *
+	 * @param object the object
+	 * @param world the world
+	 */
 	public MapLimit(MapObject object, World world){
 		Shape shape;
 		shape = createPolyline((PolylineMapObject) object);
@@ -27,6 +33,12 @@ public class MapLimit {
 		shape.dispose();
 	}
 	
+	/**
+	 * Creates the polyline.
+	 *
+	 * @param polyline the polyline
+	 * @return the chain shape
+	 */
 	private ChainShape createPolyline(PolylineMapObject polyline){
 		float [] vertices = polyline.getPolyline().getTransformedVertices();
 		Vector2[] worldVertices = new Vector2[vertices.length / 2];

@@ -14,9 +14,18 @@ import com.worms.utils.Tile;
 public class WormsContactListener implements ContactListener{
 	World world;
 	
+	/**
+	 * Instantiates a new worms contact listener.
+	 *
+	 * @param world the world
+	 */
 	public WormsContactListener(World world){
 		this.world = world;
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.physics.box2d.ContactListener#beginContact(com.badlogic.gdx.physics.box2d.Contact)
+	 */
 	@Override
 	public void beginContact(Contact contact) {
 		// TODO Auto-generated method stub
@@ -73,18 +82,27 @@ public class WormsContactListener implements ContactListener{
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.physics.box2d.ContactListener#endContact(com.badlogic.gdx.physics.box2d.Contact)
+	 */
 	@Override
 	public void endContact(Contact contact) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.physics.box2d.ContactListener#preSolve(com.badlogic.gdx.physics.box2d.Contact, com.badlogic.gdx.physics.box2d.Manifold)
+	 */
 	@Override
 	public void preSolve(Contact contact, Manifold oldManifold) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.physics.box2d.ContactListener#postSolve(com.badlogic.gdx.physics.box2d.Contact, com.badlogic.gdx.physics.box2d.ContactImpulse)
+	 */
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
 		// TODO Auto-generated method stub
@@ -96,13 +114,35 @@ public class WormsContactListener implements ContactListener{
 //	return ((a.getUserData() instanceof  && b.getUserData() instanceof ) || (b.getUserData() instanceof  && a.getUserData() instanceof ) );
 //}
 	
-	private boolean isMapLimitContact( Fixture a, Fixture b){
+	/**
+ * Checks if is map limit contact.
+ *
+ * @param a the a
+ * @param b the b
+ * @return true, if is map limit contact
+ */
+private boolean isMapLimitContact( Fixture a, Fixture b){
 	return ((a.getUserData() instanceof MapLimit || b.getUserData() instanceof MapLimit));
 }
+	
+	/**
+	 * Checks if is projectile tile contact.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return true, if is projectile tile contact
+	 */
 	private boolean isProjectileTileContact( Fixture a, Fixture b){
 		return ((a.getUserData() instanceof Projectile && b.getUserData() instanceof Tile) || (b.getUserData() instanceof Projectile && a.getUserData() instanceof Tile) );
 	}
 	
+	/**
+	 * Checks if is projectile player contact.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @return true, if is projectile player contact
+	 */
 	private boolean isProjectilePlayerContact( Fixture a, Fixture b){
 		return ((a.getUserData() instanceof Player && b.getUserData() instanceof Projectile) || (b.getUserData() instanceof Player && a.getUserData() instanceof Projectile) );
 	}

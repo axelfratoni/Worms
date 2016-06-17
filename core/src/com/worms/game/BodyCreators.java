@@ -7,8 +7,25 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import static com.worms.utils.Constants.PPM;
+
 public class BodyCreators {
 	
+	/**
+	 * Creates the box.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param width the width
+	 * @param height the height
+	 * @param isStatic the is static
+	 * @param fixedRotation the fixed rotation
+	 * @param world the world
+	 * @param cBits the c bits
+	 * @param mBits the m bits
+	 * @param gIndex the g index
+	 * @param o the o
+	 * @return the body
+	 */
 	public static Body createBox(float x, float y, float width, float height, boolean isStatic, boolean fixedRotation, World world, short  cBits, short mBits, short gIndex, Object o){
 		Body pBody;
 		BodyDef bdef = new BodyDef();
@@ -39,6 +56,21 @@ public class BodyCreators {
 		return pBody;
 	}
 	
+	/**
+	 * Creates the sphere.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param radius the radius
+	 * @param isStatic the is static
+	 * @param fixedRotation the fixed rotation
+	 * @param world the world
+	 * @param cBits the c bits
+	 * @param mBits the m bits
+	 * @param gIndex the g index
+	 * @param o the o
+	 * @return the body
+	 */
 	public static Body createSphere(float x, float y, float radius, boolean isStatic, boolean fixedRotation, World world, short  cBits, short mBits, short gIndex, Object o){
 		Body pBody;
 		BodyDef bdef = new BodyDef();

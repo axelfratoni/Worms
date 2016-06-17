@@ -15,6 +15,13 @@ public class Arrow {
 	private Body arrow;
 	private Texture arrowtex;
 	
+	/**
+	 * Instantiates a new arrow.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param world the world
+	 */
 	public Arrow(float x, float y,  World world){
 		arrowtex = new Texture("Images/LongArrow.png");
 		arrow = BodyCreators.createBox(x , y, arrowtex.getWidth(), arrowtex.getHeight(), false, true, world, BIT_ARROW, (short) 0, (short) 0, this);
@@ -22,10 +29,21 @@ public class Arrow {
 		
 	}
 	
+	/**
+	 * Gets the angle.
+	 *
+	 * @return the angle
+	 */
 	public float getAngle(){
 		return arrow.getAngle() * MathUtils.radiansToDegrees;
 	}
 	
+	/**
+	 * Move arrow.
+	 *
+	 * @param a the a
+	 * @param pos the pos
+	 */
 	public void moveArrow(boolean a, Vector2 pos){
 		float i;
 		i = getAngle();
@@ -41,10 +59,20 @@ public class Arrow {
 	}
 	
 	
+	/**
+	 * Update.
+	 *
+	 * @param pos the pos
+	 */
 	public void update(Vector2 pos){
 		arrow.setTransform ( pos, arrow.getAngle() );
 	}
 	
+	/**
+	 * Gets the tip.
+	 *
+	 * @return the tip
+	 */
 	public Vector2 getTip(){
 		Vector2 tip = new Vector2();
 		tip.x =  arrow.getPosition().x + (0.5f + (arrowtex.getWidth() ) / PPM / 2) *  MathUtils.cos( getAngle() * MathUtils.degreesToRadians);
@@ -52,13 +80,27 @@ public class Arrow {
 		return tip;
 	}
 	
+	/**
+	 * Gets the arrow.
+	 *
+	 * @return the arrow
+	 */
 	public Body getArrow(){
 		return arrow;
 	}
 	
+	/**
+	 * Gets the tex.
+	 *
+	 * @return the tex
+	 */
 	public Texture getTex(){
 		return arrowtex;
 	}
+	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		GameState.getBodiesToBeDeleted().add(arrow);
 		arrowtex.dispose();

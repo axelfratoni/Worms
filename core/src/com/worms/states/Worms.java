@@ -14,6 +14,9 @@ public class Worms extends Game {
 	
 	private short state;
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#create()
+	 */
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -21,6 +24,9 @@ public class Worms extends Game {
 		state = 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Game#render()
+	 */
 	@Override
 	public void render () {
 		switch (state){
@@ -43,10 +49,16 @@ public class Worms extends Game {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Game#dispose()
+	 */
 	public void dispose(){
 		batch.dispose();
 	}
 	
+	/**
+	 * Switch state.
+	 */
 	public void switchState(){
 		switch (state){
 		case 1 :	begin.dispose();

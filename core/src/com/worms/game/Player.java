@@ -42,26 +42,18 @@ public class Player implements Serializable{
 	private boolean hasSpecialProjectile;
 	private String teamimg;
 	
-//	public Player( float x, float y, String str, World world, int team, boolean specialProjectile){
-//		tex = new Texture(str);
-//		player = BodyCreators.createBox(x , y, (float) tex.getHeight(), (float) tex.getWidth(), false, true, world, BIT_PLAYER, (short) (BIT_WALL | BIT_PROJECTILE | BIT_EXPLOSION), (short) 0, this);
-//		this.world = world;
-//		this.team = team;
-//		shooting=false;
-//		health = 100f;
-//		hBar = new HealthBar(getX(), getY(), world);
-//		weapons = new ArrayList<Projectile>();
-//		weapons.add(new Grenade(world,  this));
-//		weapons.add(new Bullet(world, this));
-//		if (specialProjectile){
-//			weapons.add(new Missile(world, this));
-//		} else {
-//		}
-//		this.hasSpecialProjectile = specialProjectile;
-//		isFlaggedForDelete = false;
-//	}
 	
-	public Player( float x, float y, String str, World world, int team, boolean specialProjectile){
+/**
+ * Instantiates a new player.
+ *
+ * @param x the x
+ * @param y the y
+ * @param str the str
+ * @param world the world
+ * @param team the team
+ * @param specialProjectile the special projectile
+ */
+public Player( float x, float y, String str, World world, int team, boolean specialProjectile){
 		this.team = team;
 		this.teamimg = str;
 		this.setSaving(false);
@@ -70,6 +62,14 @@ public class Player implements Serializable{
 		isFlaggedForDelete = false;
 		setPlayer(x,y,world);
 	}
+	
+	/**
+	 * Sets the player.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param world the world
+	 */
 	public void setPlayer(float x, float y, World world){
 		this.world = world;
 		this.shooting = false;
@@ -86,11 +86,18 @@ public class Player implements Serializable{
 	}
 	
 	
+	/**
+	 * Gets the player.
+	 *
+	 * @return the player
+	 */
 	public Body getPlayer(){
 		return player;
 	}
 	
-	
+	/**
+	 * Next step.
+	 */
 	public void nextStep(){
 		if ( turnStep == 0){
 			startingPosition = player.getPosition().x;
@@ -118,15 +125,26 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * Checks if is shooting.
+	 *
+	 * @return true, if is shooting
+	 */
 	public boolean isShooting(){
 		return shooting;
 	}
 	
+	/**
+	 * Shoot missile.
+	 */
 	public void shootMissile(){
 		turnStep = 4;
 		nextStep();
 	}
 	
+	/**
+	 * Shoot.
+	 */
 	public void shoot(){
 		if ( !(actualWeapon instanceof Missile)){
 			actualWeapon.shoot( arrow.getTip(), chargeBar.getCharge() * 5  , arrow.getAngle());
@@ -138,10 +156,21 @@ public class Player implements Serializable{
 		shooting = false;
 	}
 	
+	/**
+	 * Gets the tex.
+	 *
+	 * @return the tex
+	 */
 	public Texture getTex(){
 		return tex;
 	}
 	
+	/**
+	 * Gets the bar.
+	 *
+	 * @param a the a
+	 * @return the bar
+	 */
 	public Bar getBar(int a){
 		switch (a){
 		case 1 : return (Bar) hBar; 
@@ -151,61 +180,131 @@ public class Player implements Serializable{
 		}
 	}
 	
+	/**
+	 * Gets the step.
+	 *
+	 * @return the step
+	 */
 	public short getStep(){
 		return turnStep;
 	}
 	
+	/**
+	 * Checks for special projectile.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean hasSpecialProjectile(){
 		return hasSpecialProjectile;
 	}
 	
+	/**
+	 * Used special projectile.
+	 */
 	public void usedSpecialProjectile(){
 		hasSpecialProjectile = false;
 	}
 	
+	/**
+	 * Gets the health.
+	 *
+	 * @return the health
+	 */
 	public float getHealth(){
 		return health;
 	}
 	
+	/**
+	 * Gets the starting position.
+	 *
+	 * @return the starting position
+	 */
 	public float getStartingPosition(){
 		return startingPosition;
 	}
 	
+	/**
+	 * Gets the movement.
+	 *
+	 * @return the movement
+	 */
 	public float getMovement(){
 		return Math.abs(player.getPosition().x - getStartingPosition());
 	}
 	
+	/**
+	 * Gets the arrow.
+	 *
+	 * @return the arrow
+	 */
 	public Arrow getArrow(){
 		return arrow;
 	}
 	
+	/**
+	 * Give coordinate.
+	 *
+	 * @param x the x
+	 */
 	public void giveCoordinate(float x){
 		missileX = x / PPM;
 	}
 	
+	/**
+	 * Select weapon.
+	 *
+	 * @param i the i
+	 */
 	public void selectWeapon(int i){
 		actualWeapon = weapons.get(i - 1);
 	}
 	
+	/**
+	 * Gets the weapon.
+	 *
+	 * @return the weapon
+	 */
 	public Projectile getWeapon(){
 		return actualWeapon;
 	}
 	
+	/**
+	 * Gets the y.
+	 *
+	 * @return the y
+	 */
 	public float getY(){
 		return player.getPosition().y  * PPM - (tex.getWidth() / 2);
 	}
 	
+	/**
+	 * Gets the x.
+	 *
+	 * @return the x
+	 */
 	public float getX(){
 		return player.getPosition().x  * PPM - (tex.getWidth() / 2);
 	}
 	
+	/**
+	 * Checks if is flagged for delete.
+	 *
+	 * @return true, if is flagged for delete
+	 */
 	public boolean isFlaggedForDelete(){
 		return isFlaggedForDelete;
 	}
+	
+	/**
+	 * Flag for deletion.
+	 */
 	public void flagForDeletion(){
 		isFlaggedForDelete = true;
 	}
 	
+	/**
+	 * Update.
+	 */
 	public void update(){
 		if (turnStep >= 3 && !(actualWeapon instanceof Missile)){
 			arrow.update( player.getPosition() );
@@ -216,10 +315,20 @@ public class Player implements Serializable{
 
 	}
 	
+	/**
+	 * Seppuku.
+	 *
+	 * @param damage the damage
+	 */
 	public void seppuku( float damage){
 		health -= damage;
 	}
 	
+	/**
+	 * Dispose.
+	 *
+	 * @param tocoMapa the toco mapa
+	 */
 	public void dispose(boolean tocoMapa){
 		if ( arrow != null)
 			arrow.dispose();
@@ -230,20 +339,46 @@ public class Player implements Serializable{
 		tex.dispose();
 	}
 	
+	/**
+	 * Reset turn.
+	 */
 	public void resetTurn(){
 		turnStep = 0;
 	}
 	
 
+	/**
+	 * Checks if is saving.
+	 *
+	 * @return true, if is saving
+	 */
 	public boolean isSaving() {
 		return isSaving;
 	}
+	
+	/**
+	 * Sets the saving.
+	 *
+	 * @param isSaving the new saving
+	 */
 	public void setSaving(boolean isSaving) {
 		this.isSaving = isSaving;
 	}
+	
+	/**
+	 * Gets the save path.
+	 *
+	 * @return the save path
+	 */
 	public String getSavePath() {
 		return savePath;
 	}
+	
+	/**
+	 * Sets the save path.
+	 *
+	 * @param savePath the new save path
+	 */
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
 	}

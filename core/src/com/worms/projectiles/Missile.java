@@ -14,11 +14,22 @@ import static com.worms.utils.Constants.PPM;
 public class Missile extends Projectile{
 	private World world;
 	
+	/**
+	 * Instantiates a new missile.
+	 *
+	 * @param world the world
+	 * @param p the p
+	 */
 	public Missile( World world, Player p) {
 		super(E_RADIUS_MISSILE, world, new Texture("Images/Missile.png") , new Texture("Images/Missileexplosion.png"), p, 45f);
 		this.world = world;
 	}
 	
+	/**
+	 * Shoot.
+	 *
+	 * @param x the x
+	 */
 	public void shoot( float x){
 		super.flagForDeletion();
 		super.setBody(BodyCreators.createBox( x * PPM, 900, super.getTex().getWidth()/4, super.getTex().getHeight()/4, false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this));

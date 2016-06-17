@@ -21,6 +21,13 @@ public class Tile implements Serializable{
 	private String texurl;
 	private Rectangle rect;
 	
+	/**
+	 * Instantiates a new tile.
+	 *
+	 * @param object the object
+	 * @param world the world
+	 * @param texURL the tex url
+	 */
 	public Tile(MapObject object, World world, String texURL){
 		texurl = texURL;
 		deletionFlag = false;
@@ -28,26 +35,53 @@ public class Tile implements Serializable{
 		setTile(world);
 	}
 	
+	/**
+	 * Flag for deletion.
+	 */
 	public void flagForDeletion(){
 		deletionFlag = true;
 	}
 	
+	/**
+	 * Checks if is flagged for deletion.
+	 *
+	 * @return true, if is flagged for deletion
+	 */
 	public boolean isFlaggedForDeletion(){
 		return deletionFlag;
 	}
 	
+	/**
+	 * Gets the tile.
+	 *
+	 * @return the tile
+	 */
 	public Body getTile(){
 		return tile;
 	}
+	
+	/**
+	 * Gets the tex.
+	 *
+	 * @return the tex
+	 */
 	public Texture getTex(){
 		return tex;
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		GameState.getBodiesToBeDeleted().add(tile);
 		tex.dispose();
 	}
 	
+	/**
+	 * Sets the tile.
+	 *
+	 * @param world the new tile
+	 */
 	public void setTile(World world){
 		this.tex = new Texture(texurl);
 		this.tile = BodyCreators.createBox(rect.getX()+rect.getWidth()/2, rect.getY() + rect.getHeight()/2, rect.getWidth(), rect.getHeight(), true, true, world, (BIT_WALL), (short) (BIT_PLAYER | BIT_PROJECTILE), (short) 0, this);

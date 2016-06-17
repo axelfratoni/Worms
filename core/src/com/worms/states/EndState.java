@@ -14,6 +14,12 @@ public class EndState {
 	private Sprite endScreen;
 	private InputManager iM;
 	
+	/**
+	 * Instantiates a new end state.
+	 *
+	 * @param batch the batch
+	 * @param team1Won the team1 won
+	 */
 	public EndState(SpriteBatch batch, boolean team1Won) {
 //		this.batch = batch;
 		this.batch = new SpriteBatch();
@@ -30,6 +36,9 @@ public class EndState {
 	}
 
 
+	/**
+	 * Render.
+	 */
 	public void render () {
 		update();
 		Gdx.gl.glClearColor(1, 1, 1, 1);
@@ -39,6 +48,9 @@ public class EndState {
 		batch.end();
 	}
 	
+	/**
+	 * Update.
+	 */
 	private void update(){
 		if (iM.manageInput(this)){
 			end = true;
@@ -47,10 +59,18 @@ public class EndState {
 	
 
 
+	/**
+	 * End.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean end(){
 		return end;
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		
 	}

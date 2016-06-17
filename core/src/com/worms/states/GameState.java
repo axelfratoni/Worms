@@ -11,9 +11,9 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -48,12 +48,12 @@ public class GameState{
 	
 	private World world;
 	private Box2DDebugRenderer b2dr;
-	
+
 	private boolean end;
 	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	
+	private Texture crosshair;
 	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap map;
@@ -61,18 +61,26 @@ public class GameState{
 
 	private Draw drawsManager;
 	private Player playerWhoseTurnItIs;
+	
 	private Commands menu;
 	
 	private InputManager inputManager;
 	
-	private static ArrayList<Body> bodiesToBeDeleted;
-	private int i;
 	
 	private static Explosion activeExplosion;
+	private static ArrayList<Body> bodiesToBeDeleted;
+	private int i;
 	private static boolean isExplosionHappening;
 	private static boolean cameraIsLocked;
 	private static boolean shoot;
 	
+	
+	/**
+	 * Instantiates a new game state.
+	 *
+	 * @param batch the batch
+	 * @param loadPath the load path
+	 */
 	public GameState(SpriteBatch batch, String loadPath) {
 		this.batch = batch;
 		end = false;
@@ -91,12 +99,12 @@ public class GameState{
 //		map = new TmxMapLoader().load("Maps/test-map.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
+		crosshair = new Texture("Images/Crosshair.png");
 		inputManager = new InputManager();
 		
 		cameraIsLocked = true;
 		shoot = false;
 		
-		/*AGREGAR AL METODO CREATE(*)*/
 		tiledObjectUtil = new TiledObjectUtil(world);
 		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
 		if(loadPath != null){
@@ -119,6 +127,9 @@ public class GameState{
 		menu = new Commands();
 	}
 
+	/**
+	 * Render.
+	 */
 	public void render () {
 		update(Gdx.graphics.getDeltaTime()* 0.01f);
 		
@@ -133,6 +144,11 @@ public class GameState{
 	//	b2dr.render(world, camera.combined.scl(PPM));
 	}
 	
+	/**
+	 * Camera update.
+	 *
+	 * @param delta time in which the camera updates
+	 */
 	public void cameraUpdate(float delta){
 		Vector3 position = camera.position;
 		if (cameraIsLocked){
@@ -160,10 +176,15 @@ public class GameState{
 	}
 	
 	
+	/**
+	 * Update.
+	 *
+	 * @param delta time in which the game updates
+	 */
 	public void update(float delta){
 		Teams.checkPlayersHealth();
 		if ( Teams.someoneLost()){
-			resetAndEnd();
+			end = true;
 		}else {
 			playerWhoseTurnItIs = Teams.getPlayerWhoseTurnItIs();
 		}
@@ -202,6 +223,9 @@ public class GameState{
 
 	
 	
+	/**
+	 * Team draw.
+	 */
 	public void teamDraw(){	
 		for (Tile t: tiledObjectUtil.getGrassTiles()){
 			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t.getTex() );
@@ -224,6 +248,10 @@ public class GameState{
 
 		}
 		
+		if (!cameraIsLocked && playerWhoseTurnItIs.getWeapon() instanceof Missile){
+			batch.draw(crosshair, camera.position.x - 50 , camera.position.y - 50);
+		}
+		
 		if ( isExplosionHappening){
 			drawExplosion();
 		}
@@ -231,18 +259,26 @@ public class GameState{
 		
 	}
 	
+	/**
+	 * Draw explosion.
+	 */
 	public void drawExplosion(){
 		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius(), activeExplosion.getExplTex());
 		drawsManager.drawExplosion(dE);
 	}
 	
+	/**
+	 * Draw.
+	 *
+	 * @param player that's going to be drawn
+	 */
 	public void draw(Player p){
 		Vector2 pos = new Vector2(p.getX(),p.getY());
 		DrawablePlayer dp = new DrawablePlayer(p.getPlayer().getPosition(), p.getTex());
 		drawsManager.drawPlayer(dp);
 		DrawableBar dHB = new DrawableBar(p.getBar(1).getTexAbove(), p.getBar(1).getTexBelow(), new Vector2(pos.x,pos.y+30), 30f, p.getHealth() * 30 / 100, 3f );
 		drawsManager.drawBar(dHB);
-		drawsManager.drawMenu(new Vector2(pos.x + p.getTex().getWidth() / 2,pos.y + p.getTex().getHeight() / 2), menu.getTex(p.getStep()));
+		drawsManager.drawMenu(new Vector2(pos.x + p.getTex().getWidth() / 2,pos.y + p.getTex().getHeight() / 2), menu.getTex(p.getStep(), p.hasSpecialProjectile()));
 		if ( p.getStep() ==  1){
 			DrawableBar dMB = new DrawableBar(p.getBar(2).getTexAbove(), p.getBar(2).getTexBelow(), pos, MOVEMENT_LIMIT * 10, p.getMovement() * 10 , 3f );
 			drawsManager.drawBar(dMB);
@@ -269,6 +305,9 @@ public class GameState{
 		
 	}
 	
+	/**
+	 * Dispose.
+	 */
 	public void dispose(){
 		world.dispose();
 		b2dr.dispose();
@@ -277,10 +316,17 @@ public class GameState{
 		tmr.dispose();
 	}
 	
+	/**
+	 * End.
+	 * @return true, if successful
+	 */
 	public boolean end(){
 		return end;
 	}
 	
+	/**
+	 * Sweep bodies after the step, checks if any body is going to be deleted.
+	 */
 	public void sweepBodies(){
 		for (; i < bodiesToBeDeleted.size(); i++){
 			bodiesToBeDeleted.get(i).setActive(false);;
@@ -289,11 +335,18 @@ public class GameState{
 		}
 	}
 	
+	/**
+	 * Sets the explosion.
+	 * @param e the new explosion
+	 */
 	public static void setExplosion(Explosion e){
 		isExplosionHappening = true;
 		activeExplosion = e;
 	}
 	
+	/**
+	 * Switch camera status.
+	 */
 	public static void switchCameraStatus(){
 		if (cameraIsLocked)
 			cameraIsLocked = false;
@@ -301,14 +354,26 @@ public class GameState{
 			cameraIsLocked = true;
 	}
 	
+	/**
+	 * Gets the bodies to be deleted.
+	 * @return the bodies to be deleted
+	 */
 	public static ArrayList<Body> getBodiesToBeDeleted(){
 		return bodiesToBeDeleted;
 	}
 	
+	/**
+	 * Shoot missile.
+	 */
 	public static void shootMissile(){
 		shoot = true;
 	}
 
+	/**
+	 * Save game.
+	 *
+	 * @param path the path
+	 */
 	public void SaveGame(String path){
 		 try
 	      { 
@@ -328,6 +393,12 @@ public class GameState{
 	      }
 	}
 	
+	/**
+	 * Load game.
+	 *
+	 * @param path 
+	 * @return the string
+	 */
 	@SuppressWarnings("unchecked")
 	public String LoadGame(String path){
 		ArrayList<Player> t1;
@@ -355,10 +426,10 @@ public class GameState{
 		}
 	}
 
-	private void resetAndEnd(){
-		camera.position.set(new Vector3(0,0,0));
-		end = true;
-	}
+	/**
+	 * Team1 won.
+	 * @return true, if team 1 is the winner
+	 */
 	public boolean team1Won() {
 		return !(Teams.getTeam(1).isEmpty());
 	}
