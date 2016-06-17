@@ -15,7 +15,6 @@ public final class Constants {
 	public static final float E_RADIUS_GRENADE = 1.5f;
 	public static final float E_RADIUS_BULLET = 0.5f;
 	public static final float E_RADIUS_MISSILE = 3f;
-	public static final float E_RADIUS_TELEPORTER = 0f;
 
 
 }

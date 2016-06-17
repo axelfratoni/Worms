@@ -3,6 +3,7 @@ package com.worms.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Teams {
@@ -15,22 +16,42 @@ public class Teams {
 	private static int CHAR1_TURN = 0;
 	private static int CHAR2_TURN = 0;
 	
-	public static void createTeams(World world) {
+	public static boolean createTeams(World world) {
+		
+	if(team1 == null && team2 == null){
 		team1 = new ArrayList<Player>();
 		team2 = new ArrayList<Player>();
-		
+	
 		team1.add(new Player( 198, 300, "Images/Redworm.png", world, 1, false));
 		team1.add(new Player( 772, 337, "Images/Redworm.png", world, 1, true));
 		team1.add(new Player( 430, 700, "Images/Redworm.png", world, 1, false));
 		team1.add(new Player( 1400, 300, "Images/Redworm.png", world, 1, true));
-		
+	
 		team2.add(new Player( 644 , 600, "Images/Blueworm.png", world, 2, false));
 		team2.add(new Player( 1100, 700, "Images/Blueworm.png", world, 2, true));
 		team2.add(new Player( 246, 432, "Images/Blueworm.png", world, 2, false));
 		team2.add(new Player( 1400, 432, "Images/Blueworm.png", world, 2, true));
-		
+	
 		team1size = team1.size();
 		team2size = team2.size();
+		return true;
+	}
+	return false;
+//		team1 = new ArrayList<Player>();
+//		team2 = new ArrayList<Player>();
+//		
+//		team1.add(new Player( 198, 300, "Images/Redworm.png", world, 1, false));
+//		team1.add(new Player( 772, 337, "Images/Redworm.png", world, 1, true));
+//		team1.add(new Player( 430, 700, "Images/Redworm.png", world, 1, false));
+//		team1.add(new Player( 1400, 300, "Images/Redworm.png", world, 1, true));
+//		
+//		team2.add(new Player( 644 , 600, "Images/Blueworm.png", world, 2, false));
+//		team2.add(new Player( 1100, 700, "Images/Blueworm.png", world, 2, true));
+//		team2.add(new Player( 246, 432, "Images/Blueworm.png", world, 2, false));
+//		team2.add(new Player( 1400, 432, "Images/Blueworm.png", world, 2, true));
+//		
+//		team1size = team1.size();
+//		team2size = team2.size();
 	}
 	
 	public static ArrayList<Player> getTeam(int i){
@@ -105,4 +126,37 @@ public class Teams {
 	        it.remove();
  		    }
  		}
+	
+	public static void loadTeams(ArrayList<Player> t1, ArrayList<Player> t2,ArrayList<Vector2> posT1,ArrayList<Vector2> posT2, World world){
+		team1 = t1;
+		team2 = t2;
+		loadPlayers(t1,posT1, world);
+		loadPlayers(t2,posT2, world);
+		updateTurn();
+	}
+	
+	public static void loadPlayers(ArrayList<Player> team, ArrayList<Vector2> posTeam, World world){
+		Player p;
+		Vector2 pos;
+		Iterator<Vector2> itP = posTeam.iterator();
+		Iterator<Player> it = team.iterator();
+		for (; it.hasNext() && itP.hasNext(); ) {
+		    p = it.next();
+		    pos = itP.next();
+		    p.setPlayer(pos.x, pos.y, world);
+ 		}
+	}
+	
+	public static ArrayList<Vector2> getPosTeam(int i){
+		Player P;
+		Vector2 Pos;
+		ArrayList<Player> team = (i == 1)? team1 : team2;
+		ArrayList <Vector2> PositionTeam = new ArrayList<Vector2>();
+		for (Iterator<Player> it = team.iterator(); it.hasNext(); ) {
+	 		P = it.next();
+	 		Pos = new Vector2(P.getX(),P.getY());
+	 		PositionTeam.add(Pos);
+ 		}
+		return PositionTeam;
+	}
 }

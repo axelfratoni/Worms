@@ -4,14 +4,32 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 import com.worms.projectiles.Bullet;
+import com.worms.states.BeginState;
+import com.worms.states.EndState;
+import com.worms.states.GameState;
 
 import static com.worms.utils.Constants.*;
+import com.worms.utils.WormsTextInputListener;
 
 public class InputManager {
-	public void manageInput(Player player ){
-
+	
+	WormsTextInputListener listener = null;
+	
+	public void manageInput(GameState g, Player player ){
+		
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+			listener = new WormsTextInputListener();
+			Gdx.input.getTextInput(listener, "Introduzca el nombre del archivo", "SaveGame.sav",null);
+		}
+		if(listener != null && listener.hasInputed()){
+			String savepath = listener.getPath(); 
+			player.setSaving(true);
+			player.setSavePath(savepath);
+			listener = null;
+		}
+		
 		if (Gdx.input.isKeyJustPressed(Input.Keys.C)){
-			Worms.switchCameraStatus();
+			GameState.switchCameraStatus();
 		}
 		
 		if(player.getStep() == 1){
@@ -85,17 +103,18 @@ public class InputManager {
 		}
 		
 		}
-	public Vector3 manageInput(Vector3 pos, boolean a){
+	
+	public Vector3 manageInput(GameState g, Vector3 pos, boolean a){
 		int vel = 4;
 		if (a){
 			if (Gdx.input.isKeyJustPressed(Input.Keys.V)){
-				Worms.switchCameraStatus();
+				GameState.switchCameraStatus();
 			}
 		}
 		if (!a){ 
 			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-				Worms.shootMissile();
-				Worms.switchCameraStatus();
+				GameState.shootMissile();
+				GameState.switchCameraStatus();
 			}
 		}
 		
@@ -116,6 +135,38 @@ public class InputManager {
 		}
 		return pos;
 	}
+
+	public boolean manageInput(BeginState b, WormsTextInputListener listener){
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+		if ( Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+			return true;
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+			Gdx.input.getTextInput(listener, "Introduzca el nombre del archivo", "SaveGame.sav",null);
+			System.out.println(listener.getPath());
+
+		}
+		if (listener.getPath() != null){
+			return true;
+		}
+		return false;
+		
+	}
+	
+	public boolean manageInput(EndState e){
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			Gdx.app.exit();
+		}
+		if ( Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	private static boolean validateMovement( float xf, float xi){
 		if((xi - xf) > MOVEMENT_LIMIT && Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 			return false;

@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Player;
 import com.worms.game.Teams;
-import com.worms.game.Worms;
+import com.worms.states.GameState;
 import com.worms.utils.Tile;
 
 
@@ -20,7 +20,7 @@ public class Explosion {
 	private float time;
 
 	public Explosion(float explRadius, float damage, Vector2 pos, World world, Texture tex) {
-		Worms.setExplosion(this);
+		GameState.setExplosion(this);
 		
 		this.world = world;
 		this.damage = damage;

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.projectiles.Projectile;
+import com.worms.states.GameState;
 import com.worms.utils.MapLimit;
 import com.worms.utils.Tile;
 
@@ -37,7 +38,7 @@ public class WormsContactListener implements ContactListener{
 			}
 			if ( !g.getDeletionFlag()){
 				g.explode();
-				Worms.getBodiesToBeDeleted().add(g.getBody());
+				GameState.getBodiesToBeDeleted().add(g.getBody());
 			}
 		} else if (isProjectileTileContact( fa, fb)){
 			Projectile g;
@@ -48,12 +49,12 @@ public class WormsContactListener implements ContactListener{
 			}
 			if ( !g.getDeletionFlag()){
 				g.explode();
-				Worms.getBodiesToBeDeleted().add(g.getBody());
+				GameState.getBodiesToBeDeleted().add(g.getBody());
 			}
 		} else if (isMapLimitContact(fa,fb)){
 			if ( fa.getUserData() instanceof MapLimit){
 				if ( fb.getUserData() instanceof Projectile){
-					Worms.getBodiesToBeDeleted().add(((Projectile)fb.getUserData()).getBody());
+					GameState.getBodiesToBeDeleted().add(((Projectile)fb.getUserData()).getBody());
 					Teams.updateTurn();
 				} else if ( fb.getUserData() instanceof Player){
 					if (Teams.getPlayerWhoseTurnItIs().equals((Player)fb.getUserData()))
@@ -62,7 +63,7 @@ public class WormsContactListener implements ContactListener{
 				}
 			} else {
 				if ( fa.getUserData() instanceof Projectile){
-					Worms.getBodiesToBeDeleted().add(((Projectile)fa.getUserData()).getBody());
+					GameState.getBodiesToBeDeleted().add(((Projectile)fa.getUserData()).getBody());
 					Teams.updateTurn();
 				} else if ( fa.getUserData() instanceof Player){
 					if (Teams.getPlayerWhoseTurnItIs().equals((Player)fa.getUserData()))

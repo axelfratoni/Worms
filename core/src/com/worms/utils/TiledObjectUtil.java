@@ -40,6 +40,22 @@ public class TiledObjectUtil {
 		}
 	}
 	
+	public void parseTiledObjectLayer(ArrayList<DirtTile> dirttiles, ArrayList<GrassTile> grasstiles){
+		dirtTiles = dirttiles;
+		grassTiles = grasstiles;
+		Tile t;
+ 		for (Iterator<GrassTile> it = grassTiles.iterator(); it.hasNext(); ) {
+ 		    t = it.next();
+ 		    t.setTile(world);
+ 		}
+ 		for (Iterator<DirtTile> it = dirtTiles.iterator(); it.hasNext(); ) {
+ 		    t = it.next();
+ 		    t.setTile(world);
+ 		}
+		
+	}
+	
+	
 	public ArrayList<GrassTile> getGrassTiles(){
 		return grassTiles;
 	}
