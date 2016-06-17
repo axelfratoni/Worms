@@ -42,7 +42,6 @@ public class Player implements Serializable{
 	private boolean hasSpecialProjectile;
 	private String teamimg;
 	
-	
 /**
  * Instantiates a new player.
  *
@@ -53,7 +52,7 @@ public class Player implements Serializable{
  * @param team the team
  * @param specialProjectile the special projectile
  */
-public Player( float x, float y, String str, World world, int team, boolean specialProjectile){
+public Player( float x, float y, String str, World world, int team,  boolean specialProjectile){
 		this.team = team;
 		this.teamimg = str;
 		this.setSaving(false);
@@ -346,7 +345,6 @@ public Player( float x, float y, String str, World world, int team, boolean spec
 		turnStep = 0;
 	}
 	
-
 	/**
 	 * Checks if is saving.
 	 *
