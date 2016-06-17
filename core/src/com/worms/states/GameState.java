@@ -100,8 +100,9 @@ public class GameState{
 		tiledObjectUtil = new TiledObjectUtil(world);
 		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
 		if(loadPath != null){
-			LoadGame(loadPath);
-		}else{
+			loadPath = LoadGame(loadPath);
+		}
+		if(loadPath == null){
 			tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("grass-layer").getObjects(), 1);
 			tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("dirt-layer").getObjects(), 2);
 			Teams.createTeams(world); /* Si se carga partida comentar 1,2,3 */
@@ -283,6 +284,7 @@ public class GameState{
 	public void sweepBodies(){
 		for (; i < bodiesToBeDeleted.size(); i++){
 			bodiesToBeDeleted.get(i).setActive(false);;
+			bodiesToBeDeleted.get(i).setUserData(null);
 			world.destroyBody(bodiesToBeDeleted.get(i));
 		}
 	}
@@ -327,7 +329,7 @@ public class GameState{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void LoadGame(String path){
+	public String LoadGame(String path){
 		ArrayList<Player> t1;
 		ArrayList<Player> t2;
 		ArrayList<Vector2> posT1;
@@ -347,8 +349,9 @@ public class GameState{
 			Teams.loadTeams(t1,t2,posT1,posT2, world);
 			In.close();
 			fileIn.close();
+			return path;
 		}catch(Exception i){
-			i.printStackTrace();
+			return null;
 		}
 	}
 

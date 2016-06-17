@@ -52,7 +52,6 @@ public class Explosion {
         		if(fixture.getUserData() instanceof Player){
         			Player p;
         			p = (Player) fixture.getUserData();
-        			System.out.println("Player: " + p.getPlayer().getPosition().x + " " + p.getPlayer().getPosition().y + " Expl: " + pos.x + " " + pos.y);
         			if ( getDistance(p.getPlayer().getPosition(), pos) <= explRadius){
         				p.seppuku(damage);
         				applyForce(p);
@@ -84,8 +83,6 @@ public class Explosion {
 		
 		if(Yforce < 200) 
 			Yforce = 200;
-		
-		System.out.println(" Fuerza X:" + Xforce + " Fuerza Y: " + Yforce);
 		
 		player.getPlayer().applyForceToCenter( Xforce , Yforce, false);
 	}

@@ -47,8 +47,8 @@ public class Arrow {
 	
 	public Vector2 getTip(){
 		Vector2 tip = new Vector2();
-		tip.x =  arrow.getPosition().x + (arrowtex.getWidth() ) / PPM / 2 *  MathUtils.cos( getAngle() * MathUtils.degreesToRadians);
-		tip.y =  arrow.getPosition().y + (arrowtex.getWidth() ) / PPM / 2 *  MathUtils.sin( getAngle() * MathUtils.degreesToRadians);
+		tip.x =  arrow.getPosition().x + (0.5f + (arrowtex.getWidth() ) / PPM / 2) *  MathUtils.cos( getAngle() * MathUtils.degreesToRadians);
+		tip.y =  arrow.getPosition().y + (0.5f + (arrowtex.getWidth() ) / PPM / 2) *  MathUtils.sin( getAngle() * MathUtils.degreesToRadians);
 		return tip;
 	}
 	

@@ -60,7 +60,6 @@ public class Projectile {
 	
 	public void shoot(Vector2 pos, float force, float angle){
 		isFlaggedForDeletion = false;
-		System.out.println("Fueza: " + force + " Angulo: " + angle);
 		body = BodyCreators.createBox( pos.x * PPM, pos.y * PPM, projectileTex.getWidth(), projectileTex.getHeight(), false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this);
 		Vector2 f = new Vector2( force * MathUtils.cos(angle * MathUtils.degreesToRadians), force * MathUtils.sin(angle * MathUtils.degreesToRadians) );
 		body.applyForceToCenter( f , true);

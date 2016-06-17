@@ -31,10 +31,8 @@ public class WormsContactListener implements ContactListener{
 			Projectile g;
 			if ( fb.getUserData() instanceof Projectile){
 				g = (Projectile) fb.getUserData();
-				System.out.println(fb.getUserData());
 			} else {
 				g = (Projectile) fa.getUserData();
-				System.out.println(fa.getUserData());
 			}
 			if ( !g.getDeletionFlag()){
 				g.explode();

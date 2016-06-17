@@ -90,7 +90,6 @@ public class Teams {
 		}
 		
 		TEAMS_TURN++;
-		System.out.println("Team turn: " + TEAMS_TURN + " Char1 turn: " + CHAR1_TURN + " Char2 turn: " + CHAR2_TURN);
 	}
 	
  	public static void checkPlayersHealth(){
