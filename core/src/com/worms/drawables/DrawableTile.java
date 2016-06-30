@@ -1,21 +1,26 @@
 package com.worms.drawables;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.worms.utils.GrassTile;
+import com.worms.utils.Tile;
 
 public class DrawableTile {
 	private Vector2 pos;
-	private Texture tex;
-	
+	private String typeOfTile;
 	/**
 	 * Instantiates a new drawable tile.
 	 *
 	 * @param pos the pos
 	 * @param tex the tex
 	 */
-	public DrawableTile( Vector2 pos, Texture tex){
+	public DrawableTile( Vector2 pos, Tile t){
 		this.pos = pos;
-		this.tex = tex;
+
+		if (t instanceof GrassTile){
+			typeOfTile = "Grasstile.png";
+		} else {
+			typeOfTile = "Dirttile.png";
+		}
 	}
 	
 	/**
@@ -32,7 +37,7 @@ public class DrawableTile {
 	 *
 	 * @return the tex
 	 */
-	public Texture getTex(){
-		return tex;
+	public String getTypeOfTile(){
+		return typeOfTile;
 	}
 }

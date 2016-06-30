@@ -21,7 +21,7 @@ public class InputManager {
 	 * @param g the g
 	 * @param player the player
 	 */
-	public void manageInput(GameState g, Player player ){
+	public void manageInput(GameState g, Worm player ){
 		
 		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
 			listener = new WormsTextInputListener();

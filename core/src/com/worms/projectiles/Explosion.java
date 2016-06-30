@@ -1,11 +1,10 @@
 package com.worms.projectiles;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.game.Player;
+import com.worms.game.Worm;
 import com.worms.game.Teams;
 import com.worms.states.GameState;
 import com.worms.utils.Tile;
@@ -16,7 +15,6 @@ public class Explosion {
 	private float damage;
 	private World world;
 	private Vector2 pos;
-	private Texture explTex;
 	private float time;
 
 	/**
@@ -26,16 +24,14 @@ public class Explosion {
 	 * @param damage the damage
 	 * @param pos the pos
 	 * @param world the world
-	 * @param tex the tex
 	 */
-	public Explosion(float explRadius, float damage, Vector2 pos, World world, Texture tex) {
+	public Explosion(float explRadius, float damage, Vector2 pos, World world) {
 		GameState.setExplosion(this);
 		
 		this.world = world;
 		this.damage = damage;
 		this.explRadius = explRadius;
 		this.pos = pos;
-		explTex = tex;
 		time = 0;
 		
 		getObjectsInRange(pos.x-explRadius/2,pos.y-explRadius/2,pos.x+explRadius/2,pos.y+explRadius/2);
@@ -50,8 +46,7 @@ public class Explosion {
 	public boolean update(float delta){
 		time+=delta;
 
-//		return false;
-		if (time >= 0.01f){
+		if (time >= 1f){
 			Teams.updateTurn();
 			
 			return true;
@@ -73,9 +68,9 @@ public class Explosion {
 		world.QueryAABB(new QueryCallback() {
 	        @Override
 	        public boolean reportFixture(Fixture fixture) {
-        		if(fixture.getUserData() instanceof Player){
-        			Player p;
-        			p = (Player) fixture.getUserData();
+        		if(fixture.getUserData() instanceof Worm){
+        			Worm p;
+        			p = (Worm) fixture.getUserData();
         			if ( getDistance(p.getPlayer().getPosition(), pos) <= explRadius){
         				p.seppuku(damage);
         				applyForce(p);
@@ -99,7 +94,7 @@ public class Explosion {
 	 *
 	 * @param player the player
 	 */
-	public void applyForce(Player player){
+	public void applyForce(Worm player){
 		float playPosX = player.getPlayer().getPosition().x;
 		float playPosY = player.getPlayer().getPosition().y;
 		
@@ -144,21 +139,11 @@ public class Explosion {
 		return pos;
 	}
 
-	/**
-	 * Gets the expl tex.
-	 *
-	 * @return the expl tex
-	 */
-	public Texture getExplTex() {
-		return explTex;
-	}
-
 	
 	/**
 	 * Dispose.
 	 */
 	public void dispose(){
-		explTex.dispose();
 	}
 	
 	/**

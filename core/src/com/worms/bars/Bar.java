@@ -3,7 +3,6 @@ package com.worms.bars;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.physics.box2d.World;
 
 public class Bar {
 	private Texture texAbove, texBelow;
@@ -13,7 +12,7 @@ public class Bar {
 	 *
 	 * @param x the x
 	 * @param y the y
-	 * @param world the world
+	 * @param  the 
 	 * @param r1 the r1
 	 * @param g1 the g1
 	 * @param b1 the b1
@@ -21,7 +20,7 @@ public class Bar {
 	 * @param g2 the g2
 	 * @param b2 the b2
 	 */
-	public Bar(float x, float y, World world, int r1, int g1, int b1, int r2, int g2, int b2){
+	public Bar(float x, float y, int r1, int g1, int b1, int r2, int g2, int b2){
 		int width =1 ;
         int height = 1;
         Pixmap pixmap = createProceduralPixmap(width, height,r1, g1, b1);

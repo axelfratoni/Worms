@@ -63,19 +63,19 @@ public class WormsContactListener implements ContactListener{
 				if ( fb.getUserData() instanceof Projectile){
 					GameState.getBodiesToBeDeleted().add(((Projectile)fb.getUserData()).getBody());
 					Teams.updateTurn();
-				} else if ( fb.getUserData() instanceof Player){
-					if (Teams.getPlayerWhoseTurnItIs().equals((Player)fb.getUserData()))
+				} else if ( fb.getUserData() instanceof Worm){
+					if (Teams.getPlayerWhoseTurnItIs().equals((Worm)fb.getUserData()))
 						Teams.updateTurn();
-					((Player)fb.getUserData()).dispose(true);
+					((Worm)fb.getUserData()).dispose(true);
 				}
 			} else {
 				if ( fa.getUserData() instanceof Projectile){
 					GameState.getBodiesToBeDeleted().add(((Projectile)fa.getUserData()).getBody());
 					Teams.updateTurn();
-				} else if ( fa.getUserData() instanceof Player){
-					if (Teams.getPlayerWhoseTurnItIs().equals((Player)fa.getUserData()))
+				} else if ( fa.getUserData() instanceof Worm){
+					if (Teams.getPlayerWhoseTurnItIs().equals((Worm)fa.getUserData()))
 						Teams.updateTurn();
-					((Player)fa.getUserData()).dispose(true);
+					((Worm)fa.getUserData()).dispose(true);
 				}
 			}
 		}
@@ -144,7 +144,7 @@ private boolean isMapLimitContact( Fixture a, Fixture b){
 	 * @return true, if is projectile player contact
 	 */
 	private boolean isProjectilePlayerContact( Fixture a, Fixture b){
-		return ((a.getUserData() instanceof Player && b.getUserData() instanceof Projectile) || (b.getUserData() instanceof Player && a.getUserData() instanceof Projectile) );
+		return ((a.getUserData() instanceof Worm && b.getUserData() instanceof Projectile) || (b.getUserData() instanceof Worm && a.getUserData() instanceof Projectile) );
 	}
 
 	

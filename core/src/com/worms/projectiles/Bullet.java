@@ -1,22 +1,22 @@
 package com.worms.projectiles;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.game.Player;
+import com.worms.game.Worm;
 
 import static com.worms.utils.Constants.E_RADIUS_BULLET;
 
 public class Bullet extends Projectile{
-
+	private static float width = 6f;
+	private static float height = 6f;
 	/**
 	 * Instantiates a new bullet.
 	 *
 	 * @param world the world
 	 * @param p the p
 	 */
-	public Bullet(World world, Player p) {
-		super( E_RADIUS_BULLET , world, new Texture("Images/Bullet.png"), new Texture("Images/Bulletexplosion.png"), p, 15f);
+	public Bullet(World world, Worm p) {
+		super( E_RADIUS_BULLET , world, p, 15f, width, height);
 		// TODO Auto-generated constructor stub
 	}
 	

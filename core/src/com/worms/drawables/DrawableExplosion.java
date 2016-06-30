@@ -1,14 +1,12 @@
 package com.worms.drawables;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import static com.worms.utils.Constants.*;
 
 public class DrawableExplosion {
 	
 	private Vector2 pos;
-	private float radius;
-	private Texture tex;
-	
+	private String explosionType;
 	/**
 	 * Instantiates a new drawable explosion.
 	 *
@@ -16,10 +14,15 @@ public class DrawableExplosion {
 	 * @param radius the radius
 	 * @param tex the tex
 	 */
-	public DrawableExplosion( Vector2 pos, float radius, Texture tex){
+	public DrawableExplosion( Vector2 pos, float radius){
 		this.pos = pos;
-		this.radius = radius;
-		this.tex = tex;
+		if ( radius == E_RADIUS_BULLET){
+			explosionType = "Bulletexplosion.png";
+		} else if ( radius == E_RADIUS_GRENADE){
+			explosionType = "Grenadeexplosion.png";
+		} else {
+			explosionType = "Missilexplosion.png";
+		}
 	}
 
 	/**
@@ -32,21 +35,12 @@ public class DrawableExplosion {
 	}
 
 	/**
-	 * Gets the radius.
-	 *
-	 * @return the radius
-	 */
-	public float getRadius() {
-		return radius;
-	}
-
-	/**
 	 * Gets the tex.
 	 *
 	 * @return the tex
 	 */
-	public Texture getTex() {
-		return tex;
+	public String getExplosionType() {
+		return explosionType;
 	}
 	
 	

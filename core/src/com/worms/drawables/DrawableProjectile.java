@@ -1,48 +1,34 @@
 package com.worms.drawables;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.worms.projectiles.Bullet;
+import com.worms.projectiles.Grenade;
+import com.worms.projectiles.Projectile;
 
 public class DrawableProjectile {
 	
-	private Sprite sprite;
 	private Vector2 pos;
 	private float angle;
-	
+	private String typeOfProjectile;
 	/**
 	 * Instantiates a new drawable projectile.
 	 *
 	 * @param pos the pos
 	 * @param tex the tex
 	 */
-	public DrawableProjectile(Vector2 pos, Texture tex){
-		this.sprite = new Sprite(tex);
-		this.pos = pos;
-		this.angle = 0;
-	}
-	
-	/**
-	 * Instantiates a new drawable projectile.
-	 *
-	 * @param pos the pos
-	 * @param tex the tex
-	 * @param angle the angle
-	 */
-	public DrawableProjectile(Vector2 pos, Texture tex, float angle){
-		this.sprite = new Sprite(tex);
+	public DrawableProjectile(Vector2 pos, Projectile p,float angle){
 		this.pos = pos;
 		this.angle = angle;
+		if ( p instanceof Bullet){
+			typeOfProjectile = "Bullet.png";
+		} else if ( p instanceof Grenade){
+			typeOfProjectile = "Grenade.png";
+		} else {
+			typeOfProjectile = "Missile.png";
+		}
 	}
+	
 
-	/**
-	 * Gets the sprite.
-	 *
-	 * @return the sprite
-	 */
-	public Sprite getSprite() {
-		return sprite;
-	}
 
 	/**
 	 * Gets the pos.
@@ -51,6 +37,10 @@ public class DrawableProjectile {
 	 */
 	public Vector2 getPos() {
 		return pos;
+	}
+	
+	public String getTypeOfProjectile(){
+		return typeOfProjectile;
 	}
 	
 	/**

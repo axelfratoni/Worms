@@ -1,6 +1,5 @@
 package com.worms.states;
 
-import static com.worms.utils.Constants.MOVEMENT_LIMIT;
 import static com.worms.utils.Constants.PPM;
 import static com.worms.utils.Constants.SCALE;
 
@@ -23,17 +22,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.bars.ChargeBar;
 import com.worms.drawables.Draw;
-import com.worms.drawables.DrawableArrow;
-import com.worms.drawables.DrawableBar;
 import com.worms.drawables.DrawableExplosion;
-import com.worms.drawables.DrawablePlayer;
-import com.worms.drawables.DrawableProjectile;
 import com.worms.drawables.DrawableTile;
-import com.worms.game.Commands;
 import com.worms.game.InputManager;
-import com.worms.game.Player;
+import com.worms.game.Worm;
 import com.worms.game.Teams;
 import com.worms.game.WormsContactListener;
 import com.worms.projectiles.Explosion;
@@ -60,9 +53,9 @@ public class GameState{
 	private TiledObjectUtil tiledObjectUtil;
 
 	private Draw drawsManager;
-	private Player playerWhoseTurnItIs;
+	private Worm playerWhoseTurnItIs;
 	
-	private Commands menu;
+
 	
 	private InputManager inputManager;
 	
@@ -118,20 +111,20 @@ public class GameState{
 		/*(*)*/
 		
 		
-		drawsManager = new Draw(batch,world);
+		drawsManager = new Draw(batch);
 		
 		bodiesToBeDeleted = new ArrayList<Body>();
 		i = 0;
 		Teams.createTeams(world);
 		
-		menu = new Commands();
+
 	}
 
 	/**
 	 * Render.
 	 */
 	public void render () {
-		update(Gdx.graphics.getDeltaTime()* 0.01f);
+		update(Gdx.graphics.getDeltaTime());
 		
 		Gdx.gl.glClearColor( 0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -228,23 +221,23 @@ public class GameState{
 	 */
 	public void teamDraw(){	
 		for (Tile t: tiledObjectUtil.getGrassTiles()){
-			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t.getTex() );
+			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t );
 			drawsManager.drawTile(dT);
 		}
 		for (Tile t: tiledObjectUtil.getDirtTiles()){
-			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t.getTex() );
+			DrawableTile dT = new DrawableTile(  t.getTile().getPosition(), t );
 			drawsManager.drawTile(dT);
 		}
 		
-		for (Player p: Teams.getTeam(1)){
+		for (Worm p: Teams.getTeam(1)){
 			if(Teams.getPlayerWhoseTurnItIs()!=p )
 			p.resetTurn();
-			draw(p);
+			drawsManager.draw(p);
 		}
-		for (Player p: Teams.getTeam(2)){
+		for (Worm p: Teams.getTeam(2)){
 			if(Teams.getPlayerWhoseTurnItIs()!=p )
 				p.resetTurn();
-			draw(p);
+			drawsManager.draw(p);
 
 		}
 		
@@ -263,7 +256,7 @@ public class GameState{
 	 * Draw explosion.
 	 */
 	public void drawExplosion(){
-		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius(), activeExplosion.getExplTex());
+		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius());
 		drawsManager.drawExplosion(dE);
 	}
 	
@@ -272,38 +265,7 @@ public class GameState{
 	 *
 	 * @param player that's going to be drawn
 	 */
-	public void draw(Player p){
-		Vector2 pos = new Vector2(p.getX(),p.getY());
-		DrawablePlayer dp = new DrawablePlayer(p.getPlayer().getPosition(), p.getTex());
-		drawsManager.drawPlayer(dp);
-		DrawableBar dHB = new DrawableBar(p.getBar(1).getTexAbove(), p.getBar(1).getTexBelow(), new Vector2(pos.x,pos.y+30), 30f, p.getHealth() * 30 / 100, 3f );
-		drawsManager.drawBar(dHB);
-		drawsManager.drawMenu(new Vector2(pos.x + p.getTex().getWidth() / 2,pos.y + p.getTex().getHeight() / 2), menu.getTex(p.getStep(), p.hasSpecialProjectile()));
-		if ( p.getStep() ==  1){
-			DrawableBar dMB = new DrawableBar(p.getBar(2).getTexAbove(), p.getBar(2).getTexBelow(), pos, MOVEMENT_LIMIT * 10, p.getMovement() * 10 , 3f );
-			drawsManager.drawBar(dMB);
-		}
-		if ( p.getStep() ==  2){
-			
-		}
-		if ( p.getStep() >=  3 && p.getStep() < 5 && !(p.getWeapon() instanceof Missile)){
-			DrawableArrow dA = new DrawableArrow(p.getPlayer().getPosition(),p.getArrow().getTex(),p.getArrow().getAngle());
-			drawsManager.drawArrow(dA);
-		}
-		if ( p.getStep() ==  4){
-			DrawableBar dCB = new DrawableBar(p.getBar(3).getTexAbove(), p.getBar(3).getTexBelow(), pos, 30, ((ChargeBar) p.getBar(3)).getCharge()/2, 3f );
-			drawsManager.drawBar(dCB);
-		}
-		if ( p.getStep() ==  5 && p.isShooting() == false){
-			DrawableProjectile dPr;
-			if (p.getWeapon() instanceof Missile)
-				 dPr = new DrawableProjectile(new Vector2(p.getWeapon().getX(),p.getWeapon().getY()),p.getWeapon().getTex());
-			else 
-				 dPr = new DrawableProjectile(new Vector2(p.getWeapon().getX(),p.getWeapon().getY()),p.getWeapon().getTex(), p.getArrow().getAngle());
-			drawsManager.drawProjectile(dPr);
-		}
-		
-	}
+
 	
 	/**
 	 * Dispose.
@@ -401,8 +363,8 @@ public class GameState{
 	 */
 	@SuppressWarnings("unchecked")
 	public String LoadGame(String path){
-		ArrayList<Player> t1;
-		ArrayList<Player> t2;
+		ArrayList<Worm> t1;
+		ArrayList<Worm> t2;
 		ArrayList<Vector2> posT1;
 		ArrayList<Vector2> posT2;
 		ArrayList<DirtTile> dirttile;
@@ -410,8 +372,8 @@ public class GameState{
 		try{
 			FileInputStream fileIn = new FileInputStream(path);
 			ObjectInputStream In = new ObjectInputStream(fileIn);
-			t1 = (ArrayList<Player>) In.readObject();
-			t2 = (ArrayList<Player>) In.readObject();
+			t1 = (ArrayList<Worm>) In.readObject();
+			t2 = (ArrayList<Worm>) In.readObject();
 			posT1 = (ArrayList<Vector2>) In.readObject();
 			posT2 = (ArrayList<Vector2>) In.readObject();
 			dirttile = (ArrayList<DirtTile>) In.readObject();

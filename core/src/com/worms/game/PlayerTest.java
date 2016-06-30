@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.bars.ChargeBar;
 import com.worms.projectiles.Grenade;
@@ -13,13 +12,12 @@ import com.worms.projectiles.Grenade;
 public class PlayerTest {
 
 	World world;
-	Player player;
+	Worm player;
 	static { System.loadLibrary("gdx");}
 	
 	@Before
 	public void create(){
-		world = new World(new Vector2( 0, 0), false);
-		player = new Player( 0, 0, "Images/Redworm.png", world, 1, false);
+		player = new Worm( "Images/Redworm.png", world, 1, false);
 	}
 	
 	@Test

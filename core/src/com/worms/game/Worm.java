@@ -1,6 +1,5 @@
 package com.worms.game;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.bars.Bar;
@@ -19,17 +18,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class Player implements Serializable{
+public class Worm implements Serializable{
 	
-	private transient Texture tex;
-	private transient Body player;
+	private transient Body body;
 	private transient World world;
 	private transient short turnStep = 0; // 0 = esperar / 1 = mover / 2 = elegir arma / 3 = cargar / 4 = disparar
 	private transient ArrayList<Projectile> weapons;
 	private transient Arrow arrow;
+	
 	private transient ChargeBar chargeBar;
 	private transient HealthBar hBar;
 	private transient MovementBar movementBar;
+	
 	private transient Projectile actualWeapon;
 	private transient String savePath;
 	private transient boolean isSaving;
@@ -40,10 +40,10 @@ public class Player implements Serializable{
 	private int team;
 	private float missileX;
 	private boolean hasSpecialProjectile;
-	private String teamimg;
-	
+	private float wormsHeight;
+	private float wormsWidth;
 /**
- * Instantiates a new player.
+ * Instantiates a new body.
  *
  * @param x the x
  * @param y the y
@@ -52,29 +52,29 @@ public class Player implements Serializable{
  * @param team the team
  * @param specialProjectile the special projectile
  */
-public Player( float x, float y, String str, World world, int team,  boolean specialProjectile){
+public Worm( String str, World world, int team,  boolean specialProjectile){
+		wormsHeight = 32;
+		wormsWidth = 32;
 		this.team = team;
-		this.teamimg = str;
 		this.setSaving(false);
 		health = 100f;
 		this.hasSpecialProjectile = specialProjectile;
 		isFlaggedForDelete = false;
-		setPlayer(x,y,world);
+		setPlayer(world);
 	}
 	
 	/**
-	 * Sets the player.
+	 * Sets the body.
 	 *
 	 * @param x the x
 	 * @param y the y
 	 * @param world the world
 	 */
-	public void setPlayer(float x, float y, World world){
+	public void setPlayer( World world){
 		this.world = world;
 		this.shooting = false;
-		tex = new Texture(teamimg);
-		player = BodyCreators.createBox(x , y, (float) tex.getHeight(), (float) tex.getWidth(), false, true, world, BIT_PLAYER, (short) (BIT_WALL | BIT_PROJECTILE | BIT_EXPLOSION), (short) 0, this);
-		hBar = new HealthBar(getX(), getY(), world);
+		body = null;
+		hBar = new HealthBar(0, 0);
 		weapons = new ArrayList<Projectile>();
 		weapons.add(new Grenade(world,  this));
 		weapons.add(new Bullet(world, this));
@@ -86,20 +86,25 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 	
 	
 	/**
-	 * Gets the player.
+	 * Gets the body.
 	 *
-	 * @return the player
+	 * @return the body
 	 */
 	public Body getPlayer(){
-		return player;
+		return body;
 	}
 	
+	public void setBody(Body b){
+		if (body == null){
+			body = b;
+		}
+	}
 	/**
 	 * Next step.
 	 */
 	public void nextStep(){
 		if ( turnStep == 0){
-			startingPosition = player.getPosition().x;
+			startingPosition = body.getPosition().x;
 		}
 		turnStep++;
 		if(turnStep > 5){
@@ -111,14 +116,14 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 			}
 		}
 		if(turnStep == 1)
-			movementBar = new MovementBar(getX(),getY(),world);
+			movementBar = new MovementBar(getX(),getY());
 		if(turnStep == 3 && actualWeapon instanceof Missile){
 			GameState.switchCameraStatus();
 		} else if(turnStep == 3){
-			arrow = new Arrow(getX() + tex.getWidth() /2, getY() + tex.getHeight() / 2,  world);
+			arrow = new Arrow(getX() + wormsWidth /2, getY() + wormsHeight / 2,  world);
 		}
 		if(turnStep == 4)
-			chargeBar = new ChargeBar(getX(),getY(),world);
+			chargeBar = new ChargeBar(getX(),getY());
 		if(turnStep == 5){
 			shooting = true;
 		}
@@ -155,14 +160,6 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 		shooting = false;
 	}
 	
-	/**
-	 * Gets the tex.
-	 *
-	 * @return the tex
-	 */
-	public Texture getTex(){
-		return tex;
-	}
 	
 	/**
 	 * Gets the bar.
@@ -228,7 +225,7 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 	 * @return the movement
 	 */
 	public float getMovement(){
-		return Math.abs(player.getPosition().x - getStartingPosition());
+		return Math.abs(body.getPosition().x - getStartingPosition());
 	}
 	
 	/**
@@ -273,7 +270,7 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 	 * @return the y
 	 */
 	public float getY(){
-		return player.getPosition().y  * PPM - (tex.getWidth() / 2);
+		return body.getPosition().y  * PPM - wormsWidth / 2 ;
 	}
 	
 	/**
@@ -282,7 +279,7 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 	 * @return the x
 	 */
 	public float getX(){
-		return player.getPosition().x  * PPM - (tex.getWidth() / 2);
+		return body.getPosition().x  * PPM - wormsHeight / 2;
 	}
 	
 	/**
@@ -306,7 +303,7 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 	 */
 	public void update(){
 		if (turnStep >= 3 && !(actualWeapon instanceof Missile)){
-			arrow.update( player.getPosition() );
+			arrow.update( body.getPosition() );
 		}
 		if (turnStep == 4){
 			chargeBar.update();
@@ -334,8 +331,11 @@ public Player( float x, float y, String str, World world, int team,  boolean spe
 		if (tocoMapa)
 			Teams.getTeam(team).remove(this);
 		isFlaggedForDelete = true;
-		GameState.getBodiesToBeDeleted().add(player);
-		tex.dispose();
+		GameState.getBodiesToBeDeleted().add(body);
+	}
+	
+	public int getTeam(){
+		return team;
 	}
 	
 	/**

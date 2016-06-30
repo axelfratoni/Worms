@@ -1,22 +1,24 @@
 package com.worms.drawables;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 public class DrawablePlayer {
 
 	private Vector2 pos;
-	private Texture tex;
-	
+	private String playersTeam;
 	/**
 	 * Instantiates a new drawable player.
 	 *
 	 * @param pos the pos
 	 * @param tex the tex
 	 */
-	public DrawablePlayer(Vector2 pos, Texture tex){
+	public DrawablePlayer(Vector2 pos, int team){
 		this.pos = pos;
-		this.tex = tex;
+		if (team == 1){
+			playersTeam = "Redworm.png";
+		} else {
+			playersTeam = "Blueworm.png";
+		}
 	}
 	
 	/**
@@ -28,13 +30,7 @@ public class DrawablePlayer {
 		return pos;
 	}
 	
-	/**
-	 * Gets the tex.
-	 *
-	 * @return the tex
-	 */
-	public Texture getTex(){
-		return tex;
+	public String getPlayersTeam(){
+		return playersTeam;
 	}
-	
 }

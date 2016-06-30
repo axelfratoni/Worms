@@ -1,6 +1,5 @@
 package com.worms.bars;
 
-import com.badlogic.gdx.physics.box2d.World;
 
 public class ChargeBar extends Bar {
 
@@ -12,10 +11,10 @@ public class ChargeBar extends Bar {
 	 *
 	 * @param x the x
 	 * @param y the y
-	 * @param world the world
+	 * @param  the 
 	 */
-	public ChargeBar(float x, float y, World world){
-		super(x,y,world, 1, 0, 0, 1, 1, 1);
+	public ChargeBar(float x, float y){
+		super(x,y, 1, 0, 0, 1, 1, 1);
 		charge = 0;
 		chargeDir = true;
 	}
