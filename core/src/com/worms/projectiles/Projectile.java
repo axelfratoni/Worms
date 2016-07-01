@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.game.BodyCreators;
 import com.worms.game.Worm;
 
 import static com.worms.utils.Constants.*;
@@ -89,6 +88,13 @@ public class Projectile {
 		return body;
 	}
 	
+	public float getWidth(){
+		return width;
+	}
+	
+	public float getHeight(){
+		return height;
+	}
 	/**
 	 * Shoot.
 	 *
@@ -96,9 +102,9 @@ public class Projectile {
 	 * @param force the force
 	 * @param angle the angle
 	 */
-	public void shoot(Vector2 pos, float force, float angle){
+	public void shoot( float force, float angle, Body b){
 		isFlaggedForDeletion = false;
-		body = BodyCreators.createBox( pos.x * PPM, pos.y * PPM, width, height, false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this);
+		body =  b;
 		Vector2 f = new Vector2( force * MathUtils.cos(angle * MathUtils.degreesToRadians), force * MathUtils.sin(angle * MathUtils.degreesToRadians) );
 		body.applyForceToCenter( f , true);
 	}

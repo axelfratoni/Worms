@@ -93,7 +93,7 @@ public class GameState{
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
 		crosshair = new Texture("Images/Crosshair.png");
-		inputManager = new InputManager();
+		inputManager = new InputManager(world);
 		
 		cameraIsLocked = true;
 		shoot = false;
@@ -134,7 +134,8 @@ public class GameState{
 		batch.begin();
 		teamDraw();
 		batch.end();
-	//	b2dr.render(world, camera.combined.scl(PPM));
+		b2dr.
+		render(world, camera.combined.scl(PPM));
 	}
 	
 	/**
@@ -188,14 +189,11 @@ public class GameState{
 		}
 		tiledObjectUtil.cleanTiles();
 		world.step( 1/60f, 6, 2);
-		if (playerWhoseTurnItIs.isShooting()){
-			playerWhoseTurnItIs.shoot();
-		}
 
 		sweepBodies();
 		
-		if(playerWhoseTurnItIs.getStep() == 0)
-			playerWhoseTurnItIs.nextStep();
+//		if(playerWhoseTurnItIs.getStep() == 0)
+//			playerWhoseTurnItIs.nextStep();
 		
 		cameraUpdate(delta);
 		tmr.setView(camera);
@@ -291,9 +289,11 @@ public class GameState{
 	 */
 	public void sweepBodies(){
 		for (; i < bodiesToBeDeleted.size(); i++){
-			bodiesToBeDeleted.get(i).setActive(false);;
-			bodiesToBeDeleted.get(i).setUserData(null);
-			world.destroyBody(bodiesToBeDeleted.get(i));
+			if (bodiesToBeDeleted.get(i) != null){
+				bodiesToBeDeleted.get(i).setActive(false);;
+				bodiesToBeDeleted.get(i).setUserData(null);
+				world.destroyBody(bodiesToBeDeleted.get(i));
+			}
 		}
 	}
 	

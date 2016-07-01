@@ -3,7 +3,12 @@ package com.worms.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
-import com.worms.projectiles.Bullet;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+import com.worms.bars.ChargeBar;
+import com.worms.bars.MovementBar;
+import com.worms.projectiles.Missile;
+import com.worms.projectiles.Projectile;
 import com.worms.states.BeginState;
 import com.worms.states.EndState;
 import com.worms.states.GameState;
@@ -14,6 +19,24 @@ import com.worms.utils.WormsTextInputListener;
 public class InputManager {
 	
 	WormsTextInputListener listener = null;
+	
+	private static int BEGINNING_STEP = 0;
+	private static int MOVEMENT_STEP = 1;
+	private static int WEAPON_STEP = 2;
+	private static int ANGLE_STEP = 3;
+	private static int CHARGING_STEP = 4;
+	private static int SHOOTING_STEP = 5;
+	private World world;
+	private boolean a = true; 
+	
+	public InputManager(){
+		this.world = null;
+	}
+	public InputManager(World world){
+		this.world = world;
+	}
+	
+	
 	
 	/**
 	 * Manage input.
@@ -27,6 +50,7 @@ public class InputManager {
 			listener = new WormsTextInputListener();
 			Gdx.input.getTextInput(listener, "Introduzca el nombre del archivo", "SaveGame.sav",null);
 		}
+		
 		if(listener != null && listener.hasInputed()){
 			String savepath = listener.getPath(); 
 			player.setSaving(true);
@@ -37,10 +61,66 @@ public class InputManager {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.C)){
 			GameState.switchCameraStatus();
 		}
+		if (player.getStep() == BEGINNING_STEP){
+			nextStep(player);
+			player.nextStep();
+		}
 		
-		if(player.getStep() == 1){
-		float horizontalForce = 0f;
-		float verticalForce = 0f;
+		if (player.getStep() == CHARGING_STEP){
+			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+				player.nextStep();
+				nextStep(player);
+  				shoot(player);
+			}
+			
+		}
+		
+		if(player.getStep() == ANGLE_STEP){
+			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+				player.getArrow().moveArrow( true, player.getPlayer().getPosition());
+			}
+			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+				player.getArrow().moveArrow( false, player.getPlayer().getPosition());
+			}
+			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+				player.nextStep();
+				nextStep(player);
+			}
+		}
+		
+		
+		if(player.getStep() == WEAPON_STEP){
+			player.getPlayer().setLinearVelocity( 0, player.getPlayer().getLinearVelocity().y);
+			
+			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
+				player.selectWeapon(1);
+				player.nextStep();
+				nextStep(player);
+			}
+			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
+				player.selectWeapon(2);
+				player.nextStep();
+				nextStep(player);
+			}
+			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+				if ( player.hasSpecialProjectile()){
+					player.selectWeapon(3);
+					player.usedSpecialProjectile();
+					nextStep(player);
+					player.nextStep();
+				}
+			}
+		}
+		if(player.getStep() == MOVEMENT_STEP){
+			float horizontalForce = 0f;
+			float verticalForce = 0f;
+			if (player.getTeam() == 1 && a){
+				nextStep(player);
+				a = false;
+			} else if (player.getTeam() == 2 && !a){
+				nextStep(player);
+				a = true;
+			}
 			if ( validateMovement(player.getPlayer().getPosition().x, player.getStartingPosition())){
 				if ( Gdx.input.isKeyPressed(Input.Keys.LEFT)){
 					horizontalForce = -1f;
@@ -65,43 +145,11 @@ public class InputManager {
 			}
 			
 			player.getPlayer().setLinearVelocity( horizontalForce * SPEED, player.getPlayer().getLinearVelocity().y);
-		}
-
-		
-		if(player.getStep() == 2){
-			player.getPlayer().setLinearVelocity( 0, player.getPlayer().getLinearVelocity().y);
-			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)){
-				player.selectWeapon(1);
+			
+			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
 				player.nextStep();
+				nextStep(player);
 			}
-			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)){
-				player.selectWeapon(2);
-				player.nextStep();
-			}
-			if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
-				if ( player.hasSpecialProjectile()){
-					player.selectWeapon(3);
-					player.usedSpecialProjectile();
-					player.nextStep();
-				}
-			}
-		}
-		
-		if(player.getStep() == 3){
-			if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-				player.getArrow().moveArrow( true, player.getPlayer().getPosition());
-			}
-			if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-				player.getArrow().moveArrow( false, player.getPlayer().getPosition());
-			}
-		}
-		
-		if(player.getStep() == 4 && player.getWeapon() instanceof Bullet){
-			player.nextStep();
-		}
-		
-		if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && player.getStep() != 2 && player.getStep() != 5){
-			player.nextStep();
 		}
 		
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
@@ -192,7 +240,39 @@ public class InputManager {
 		return false;
 	}
 	
+	public void nextStep( Worm player){
+		int turnStep = player.getStep();
+		
+		if ( turnStep == BEGINNING_STEP){
+			player.setStartingPosition();
+		}
+		if(turnStep == MOVEMENT_STEP){
+			player.setMovementBar( new MovementBar(player.getX(),player.getY()));
+		}
+		
+		if(turnStep == WEAPON_STEP && player.getWeapon() instanceof Missile){
+			GameState.switchCameraStatus();
+		} else if(turnStep == ANGLE_STEP){
+			player.getArrow().setBody( BodyCreators.createBox(player.getX() + player.getWidth() /2 , player.getY() + player.getHeight() / 2, player.getArrow().getWidth(), player.getArrow().getHeight(), false, true, world, BIT_ARROW, (short) 0, (short) 0, player.getArrow()));
+		}
+		if(turnStep == CHARGING_STEP){
+			player.setChargeBar(new ChargeBar(player.getX(),player.getY()));
+		}
+		if(turnStep == SHOOTING_STEP){
+		}
+	}
 	
+	public void shoot(Worm player){
+	Projectile weapon = player.getWeapon();
+	if ( !(weapon instanceof Missile)){
+		Body b = BodyCreators.createBox( player.getArrow().getTip().x * PPM, player.getArrow().getTip().y * PPM, weapon.getWidth(),weapon.getHeight(), false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , weapon);
+		weapon.shoot(player.getChargeBar().getCharge() * 5  , player.getArrow().getAngle(), b);
+	} else {
+		Missile m;
+		m = (Missile) weapon;
+//		m.shoot(missileX);
+	}
+}
 	
 	/**
 	 * Validate movement.

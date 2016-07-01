@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class Worm implements Serializable{
 	
 	private transient Body body;
-	private transient World world;
 	private transient short turnStep = 0; // 0 = esperar / 1 = mover / 2 = elegir arma / 3 = cargar / 4 = disparar
 	private transient ArrayList<Projectile> weapons;
 	private transient Arrow arrow;
@@ -36,12 +35,13 @@ public class Worm implements Serializable{
 	private float startingPosition;
 	private float health;
 	private boolean isFlaggedForDelete;
-	private boolean shooting;
 	private int team;
 	private float missileX;
 	private boolean hasSpecialProjectile;
-	private float wormsHeight;
-	private float wormsWidth;
+	private boolean turnIsStarting;
+	
+	private static float height = 32;
+	private static float width = 32;
 /**
  * Instantiates a new body.
  *
@@ -53,8 +53,7 @@ public class Worm implements Serializable{
  * @param specialProjectile the special projectile
  */
 public Worm( String str, World world, int team,  boolean specialProjectile){
-		wormsHeight = 32;
-		wormsWidth = 32;
+		arrow = new Arrow();
 		this.team = team;
 		this.setSaving(false);
 		health = 100f;
@@ -71,8 +70,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @param world the world
 	 */
 	public void setPlayer( World world){
-		this.world = world;
-		this.shooting = false;
 		body = null;
 		hBar = new HealthBar(0, 0);
 		weapons = new ArrayList<Projectile>();
@@ -99,67 +96,57 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 			body = b;
 		}
 	}
+	
 	/**
 	 * Next step.
 	 */
 	public void nextStep(){
-		if ( turnStep == 0){
-			startingPosition = body.getPosition().x;
-		}
 		turnStep++;
-		if(turnStep > 5){
-			turnStep = 0;
-			movementBar.dispose();
-			if (!(actualWeapon instanceof Missile)){
-				chargeBar.dispose();
-				arrow.dispose();
-			}
-		}
-		if(turnStep == 1)
-			movementBar = new MovementBar(getX(),getY());
-		if(turnStep == 3 && actualWeapon instanceof Missile){
-			GameState.switchCameraStatus();
-		} else if(turnStep == 3){
-			arrow = new Arrow(getX() + wormsWidth /2, getY() + wormsHeight / 2,  world);
-		}
-		if(turnStep == 4)
-			chargeBar = new ChargeBar(getX(),getY());
-		if(turnStep == 5){
-			shooting = true;
-		}
 	}
 	
 	/**
-	 * Checks if is shooting.
-	 *
-	 * @return true, if is shooting
+	 * Gets the step.
+	 * @return the step
 	 */
-	public boolean isShooting(){
-		return shooting;
+	public short getStep(){
+		return turnStep;
 	}
 	
-	/**
-	 * Shoot missile.
-	 */
+	public MovementBar getMovementBar(){
+		return movementBar;
+	}
+	
+	public ChargeBar getChargeBar(){
+		return chargeBar;
+	}
+	
+	public float getWidth(){
+		return width;
+	}
+	
+	public float getHeight(){
+		return height;
+	}
+	
+	public void setChargeBar(ChargeBar cb){
+		chargeBar = cb;
+	}
+	
+	public void setMovementBar(MovementBar mb){
+		movementBar = mb;
+	}
+	
+	
+	
 	public void shootMissile(){
 		turnStep = 4;
 		nextStep();
 	}
 	
-	/**
-	 * Shoot.
-	 */
-	public void shoot(){
-		if ( !(actualWeapon instanceof Missile)){
-			actualWeapon.shoot( arrow.getTip(), chargeBar.getCharge() * 5  , arrow.getAngle());
-		} else {
-			Missile m;
-			m = (Missile) actualWeapon;
-			m.shoot(missileX);
-		}
-		shooting = false;
-	}
 	
+	public void setStartingPosition(){
+		this.startingPosition = body.getPosition().x;
+	}
 	
 	/**
 	 * Gets the bar.
@@ -174,15 +161,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		case 3 : return (Bar) chargeBar; 
 		default : return null;
 		}
-	}
-	
-	/**
-	 * Gets the step.
-	 *
-	 * @return the step
-	 */
-	public short getStep(){
-		return turnStep;
 	}
 	
 	/**
@@ -225,8 +203,9 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @return the movement
 	 */
 	public float getMovement(){
-		return Math.abs(body.getPosition().x - getStartingPosition());
+		return Math.abs(body.getPosition().x - startingPosition);
 	}
+	
 	
 	/**
 	 * Gets the arrow.
@@ -270,7 +249,7 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @return the y
 	 */
 	public float getY(){
-		return body.getPosition().y  * PPM - wormsWidth / 2 ;
+		return body.getPosition().y  * PPM - width / 2 ;
 	}
 	
 	/**
@@ -279,24 +258,9 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @return the x
 	 */
 	public float getX(){
-		return body.getPosition().x  * PPM - wormsHeight / 2;
+		return body.getPosition().x  * PPM - height / 2;
 	}
 	
-	/**
-	 * Checks if is flagged for delete.
-	 *
-	 * @return true, if is flagged for delete
-	 */
-	public boolean isFlaggedForDelete(){
-		return isFlaggedForDelete;
-	}
-	
-	/**
-	 * Flag for deletion.
-	 */
-	public void flagForDeletion(){
-		isFlaggedForDelete = true;
-	}
 	
 	/**
 	 * Update.
@@ -326,12 +290,14 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @param tocoMapa the toco mapa
 	 */
 	public void dispose(boolean tocoMapa){
-		if ( arrow != null)
-			arrow.dispose();
-		if (tocoMapa)
-			Teams.getTeam(team).remove(this);
-		isFlaggedForDelete = true;
-		GameState.getBodiesToBeDeleted().add(body);
+		if (!isFlaggedForDelete){
+			isFlaggedForDelete = true;
+			if ( arrow != null)
+				arrow.dispose();
+			if (tocoMapa)
+				Teams.getTeam(team).remove(this);
+			GameState.getBodiesToBeDeleted().add(body);
+		}
 	}
 	
 	public int getTeam(){
@@ -342,6 +308,14 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * Reset turn.
 	 */
 	public void resetTurn(){
+		if (turnStep > 0){
+			getMovementBar().dispose();
+			System.out.println("DISPOSE" + team);
+//			if (!(getWeapon() instanceof Missile)){
+//				getChargeBar().dispose();
+				getArrow().dispose();
+//			}
+		}
 		turnStep = 0;
 	}
 	

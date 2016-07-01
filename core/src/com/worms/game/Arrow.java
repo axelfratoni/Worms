@@ -1,19 +1,16 @@
 package com.worms.game;
 
-import static com.worms.utils.Constants.BIT_ARROW;
 import static com.worms.utils.Constants.PPM;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
-import com.worms.game.BodyCreators;
 import com.worms.states.GameState;
 
 public class Arrow {
 	private Body arrow;
-	private float height;
-	private float width;
+	private static float height = 5f;
+	private static float width = 64f;
 	/**
 	 * Instantiates a new arrow.
 	 *
@@ -21,14 +18,15 @@ public class Arrow {
 	 * @param y the y
 	 * @param world the world
 	 */
-	public Arrow(float x, float y,  World world){
-		height = 5f;
-		width = 64f;
-		arrow = BodyCreators.createBox(x , y, width, height, false, true, world, BIT_ARROW, (short) 0, (short) 0, this);
-		arrow.setGravityScale( 0f);
+	public Arrow(){
+		
 		
 	}
 	
+	public void setBody(Body b){
+		arrow = b;
+		arrow.setGravityScale( 0f);
+	}
 	/**
 	 * Gets the angle.
 	 *
@@ -37,6 +35,15 @@ public class Arrow {
 	public float getAngle(){
 		return arrow.getAngle() * MathUtils.radiansToDegrees;
 	}
+	
+	public float getWidth(){
+		return width;
+	}
+	
+	public float getHeight(){
+		return height;
+	}
+	
 	
 	/**
 	 * Move arrow.

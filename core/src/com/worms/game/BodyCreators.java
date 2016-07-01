@@ -29,7 +29,6 @@ public class BodyCreators {
 	public static Body createBox(float x, float y, float width, float height, boolean isStatic, boolean fixedRotation, World world, short  cBits, short mBits, short gIndex, Object o){
 		Body pBody;
 		BodyDef bdef = new BodyDef();
-		
 		if (isStatic){
 			bdef.type = BodyDef.BodyType.StaticBody;
 		} else {

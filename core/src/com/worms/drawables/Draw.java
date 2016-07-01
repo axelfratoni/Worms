@@ -70,7 +70,7 @@ public class Draw {
 			DrawableBar dCB = new DrawableBar(p.getBar(3).getTexAbove(), p.getBar(3).getTexBelow(), pos, 30, ((ChargeBar) p.getBar(3)).getCharge()/2, 3f );
 			drawBar(dCB);
 		}
-		if ( p.getStep() ==  5 && p.isShooting() == false){
+		if ( p.getStep() ==  5){
 			DrawableProjectile dPr;
 			if (p.getWeapon() instanceof Missile)
 				 dPr = new DrawableProjectile(new Vector2(p.getWeapon().getX(),p.getWeapon().getY()), p.getWeapon(), 0);
