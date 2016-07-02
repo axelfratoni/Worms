@@ -38,7 +38,6 @@ public class Worm implements Serializable{
 	private int team;
 	private float missileX;
 	private boolean hasSpecialProjectile;
-	private boolean turnIsStarting;
 	
 	private static float height = 32;
 	private static float width = 32;
@@ -353,6 +352,10 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 */
 	public void setSavePath(String savePath) {
 		this.savePath = savePath;
+	}
+
+	public float getMissileX() {
+		return missileX;
 	}
 	
 	

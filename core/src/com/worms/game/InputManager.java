@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.bars.ChargeBar;
 import com.worms.bars.MovementBar;
+import com.worms.projectiles.Bullet;
 import com.worms.projectiles.Missile;
 import com.worms.projectiles.Projectile;
 import com.worms.states.BeginState;
@@ -85,6 +86,11 @@ public class InputManager {
 			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
 				player.nextStep();
 				nextStep(player);
+				if (player.getWeapon() instanceof Bullet){
+					player.nextStep();
+					nextStep(player);
+	  				shoot(player);
+				}
 			}
 		}
 		
@@ -166,7 +172,7 @@ public class InputManager {
 	 * @param a the a
 	 * @return the vector3
 	 */
-	public Vector3 manageInput(GameState g, Vector3 pos, boolean a){
+	public Vector3 manageInput(GameState g, Vector3 pos, boolean a, Worm player){
 		int vel = 4;
 		if (a){
 			if (Gdx.input.isKeyJustPressed(Input.Keys.V)){
@@ -175,7 +181,9 @@ public class InputManager {
 		}
 		if (!a){ 
 			if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-				GameState.shootMissile();
+				shoot(player);
+				player.nextStep();
+				player.nextStep();
 				GameState.switchCameraStatus();
 			}
 		}
@@ -270,7 +278,7 @@ public class InputManager {
 	} else {
 		Missile m;
 		m = (Missile) weapon;
-//		m.shoot(missileX);
+		m.shoot(player.getMissileX());
 	}
 }
 	

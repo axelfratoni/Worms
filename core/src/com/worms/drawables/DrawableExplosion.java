@@ -21,7 +21,7 @@ public class DrawableExplosion {
 		} else if ( radius == E_RADIUS_GRENADE){
 			explosionType = "Grenadeexplosion.png";
 		} else {
-			explosionType = "Missilexplosion.png";
+			explosionType = "Missileexplosion.png";
 		}
 	}
 

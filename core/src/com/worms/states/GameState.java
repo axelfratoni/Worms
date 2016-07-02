@@ -134,8 +134,7 @@ public class GameState{
 		batch.begin();
 		teamDraw();
 		batch.end();
-		b2dr.
-		render(world, camera.combined.scl(PPM));
+//		b2dr.render(world, camera.combined.scl(PPM));
 	}
 	
 	/**
@@ -155,14 +154,14 @@ public class GameState{
 			}
 		} else if (playerWhoseTurnItIs.getWeapon() instanceof Missile){
 			
-			position = inputManager.manageInput(this, position, false);
+			position = inputManager.manageInput(this, position, false, playerWhoseTurnItIs);
 			playerWhoseTurnItIs.giveCoordinate(position.x);
 			if (shoot){
 				playerWhoseTurnItIs.shootMissile();
 				shoot = false;
 			}
 		} else {
-			position = inputManager.manageInput(this, position, true);
+			position = inputManager.manageInput(this, position, true, playerWhoseTurnItIs);
 		}
 		camera.position.set(position);
 		
@@ -324,12 +323,6 @@ public class GameState{
 		return bodiesToBeDeleted;
 	}
 	
-	/**
-	 * Shoot missile.
-	 */
-	public static void shootMissile(){
-		shoot = true;
-	}
 
 	/**
 	 * Save game.

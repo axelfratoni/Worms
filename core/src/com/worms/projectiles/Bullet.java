@@ -1,6 +1,5 @@
 package com.worms.projectiles;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
@@ -25,7 +24,7 @@ public class Bullet extends Projectile{
 	/* (non-Javadoc)
 	 * @see com.worms.projectiles.Projectile#shoot(com.badlogic.gdx.math.Vector2, float, float)
 	 */
-	public void shoot(Vector2 pos, float force, float angle, Body b){
+	public void shoot(float force, float angle, Body b){
 		super.shoot( 100, angle, b);
 		super.getBody().setGravityScale(0);
 	}
