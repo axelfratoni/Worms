@@ -28,6 +28,10 @@ public class PlayerTest {
 		player.nextStep();
 		assertNotNull("Chequea que se creo la flecha", player.getArrow());
 		player.nextStep();
+		for(int i = 0; i < 30; i++){
+			player.update();
+		}
+		assertTrue("Chequea que se este cargando la potencia",player.getCharge() != 0);
 	}
 
 }

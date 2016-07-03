@@ -5,14 +5,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.worms.game.InputManager;
+import com.worms.game.Controller;
 
 public class EndState {
 	
 	private SpriteBatch batch;
 	private boolean end;
 	private Sprite endScreen;
-	private InputManager iM;
+	private Controller iM;
 	
 	/**
 	 * Instantiates a new end state.
@@ -30,7 +30,7 @@ public class EndState {
 		} else {
 			tex = new Texture("Images/Team2victoryscreen.png");
 		}
-		iM = new InputManager();
+		iM = new Controller();
 		endScreen = new Sprite(tex);
 		endScreen.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}

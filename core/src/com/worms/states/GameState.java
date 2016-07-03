@@ -24,7 +24,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.drawables.Draw;
 import com.worms.drawables.DrawableTile;
-import com.worms.game.InputManager;
+import com.worms.game.Controller;
 import com.worms.game.Worm;
 import com.worms.game.Teams;
 import com.worms.game.WormsContactListener;
@@ -56,7 +56,7 @@ public class GameState{
 	
 
 	
-	private InputManager inputManager;
+	private Controller inputManager;
 	
 	
 	private static Explosion activeExplosion;
@@ -91,7 +91,7 @@ public class GameState{
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
 		crosshair = new Texture("Images/Crosshair.png");
-		inputManager = new InputManager(world);
+		inputManager = new Controller(world);
 		
 		cameraIsLocked = true;
 		

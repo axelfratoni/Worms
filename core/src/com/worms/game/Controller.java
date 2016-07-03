@@ -15,17 +15,17 @@ import com.worms.states.GameState;
 import static com.worms.utils.Constants.*;
 import com.worms.utils.WormsTextInputListener;
 
-public class InputManager {
+public class Controller {
 	
 	WormsTextInputListener listener = null;
 	
 	private World world;
 	private boolean a = true; 
 	
-	public InputManager(){
+	public Controller(){
 		this.world = null;
 	}
-	public InputManager(World world){
+	public Controller(World world){
 		this.world = world;
 	}
 	

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.worms.game.InputManager;
+import com.worms.game.Controller;
 import com.worms.utils.WormsTextInputListener;
 
 public class BeginState {
@@ -14,7 +14,7 @@ public class BeginState {
 	
 	private boolean end;
 	private Sprite mainMenu;
-	private InputManager iM;
+	private Controller iM;
 	private WormsTextInputListener listener ;
 
 	
@@ -29,7 +29,7 @@ public class BeginState {
 		mainMenu = new Sprite(new Texture("Images/Mainmenu.png"));
 		listener = new WormsTextInputListener();
 		mainMenu.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		iM = new InputManager();
+		iM = new Controller();
 	}
 
 
