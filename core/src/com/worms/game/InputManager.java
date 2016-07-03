@@ -5,8 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.bars.ChargeBar;
-import com.worms.bars.MovementBar;
 import com.worms.projectiles.Bullet;
 import com.worms.projectiles.Missile;
 import com.worms.projectiles.Projectile;
@@ -21,12 +19,6 @@ public class InputManager {
 	
 	WormsTextInputListener listener = null;
 	
-	private static int BEGINNING_STEP = 0;
-	private static int MOVEMENT_STEP = 1;
-	private static int WEAPON_STEP = 2;
-	private static int ANGLE_STEP = 3;
-	private static int CHARGING_STEP = 4;
-	private static int SHOOTING_STEP = 5;
 	private World world;
 	private boolean a = true; 
 	
@@ -254,18 +246,13 @@ public class InputManager {
 		if ( turnStep == BEGINNING_STEP){
 			player.setStartingPosition();
 		}
-		if(turnStep == MOVEMENT_STEP){
-			player.setMovementBar( new MovementBar(player.getX(),player.getY()));
-		}
 		
 		if(turnStep == WEAPON_STEP && player.getWeapon() instanceof Missile){
 			GameState.switchCameraStatus();
 		} else if(turnStep == ANGLE_STEP){
 			player.getArrow().setBody( BodyCreators.createBox(player.getX() + player.getWidth() /2 , player.getY() + player.getHeight() / 2, player.getArrow().getWidth(), player.getArrow().getHeight(), false, true, world, BIT_ARROW, (short) 0, (short) 0, player.getArrow()));
 		}
-		if(turnStep == CHARGING_STEP){
-			player.setChargeBar(new ChargeBar(player.getX(),player.getY()));
-		}
+
 		if(turnStep == SHOOTING_STEP){
 		}
 	}
@@ -274,7 +261,7 @@ public class InputManager {
 	Projectile weapon = player.getWeapon();
 	if ( !(weapon instanceof Missile)){
 		Body b = BodyCreators.createBox( player.getArrow().getTip().x * PPM, player.getArrow().getTip().y * PPM, weapon.getWidth(),weapon.getHeight(), false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , weapon);
-		weapon.shoot(player.getChargeBar().getCharge() * 5  , player.getArrow().getAngle(), b);
+		weapon.shoot(player.getCharge() * 5  , player.getArrow().getAngle(), b);
 	} else {
 		Missile m;
 		m = (Missile) weapon;

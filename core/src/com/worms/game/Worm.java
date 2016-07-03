@@ -2,10 +2,6 @@ package com.worms.game;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.bars.Bar;
-import com.worms.bars.ChargeBar;
-import com.worms.bars.HealthBar;
-import com.worms.bars.MovementBar;
 import com.worms.projectiles.Bullet;
 import com.worms.projectiles.Grenade;
 import com.worms.projectiles.Missile;
@@ -25,15 +21,13 @@ public class Worm implements Serializable{
 	private transient ArrayList<Projectile> weapons;
 	private transient Arrow arrow;
 	
-	private transient ChargeBar chargeBar;
-	private transient HealthBar hBar;
-	private transient MovementBar movementBar;
-	
 	private transient Projectile actualWeapon;
 	private transient String savePath;
 	private transient boolean isSaving;
 	private float startingPosition;
 	private float health;
+	private float charge;
+	private boolean chargeDir;
 	private boolean isFlaggedForDelete;
 	private int team;
 	private float missileX;
@@ -56,6 +50,8 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		this.team = team;
 		this.setSaving(false);
 		health = 100f;
+		charge = 0;
+		chargeDir = true;
 		this.hasSpecialProjectile = specialProjectile;
 		isFlaggedForDelete = false;
 		setPlayer(world);
@@ -70,7 +66,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 */
 	public void setPlayer( World world){
 		body = null;
-		hBar = new HealthBar(0, 0);
 		weapons = new ArrayList<Projectile>();
 		weapons.add(new Grenade(world,  this));
 		weapons.add(new Bullet(world, this));
@@ -111,14 +106,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		return turnStep;
 	}
 	
-	public MovementBar getMovementBar(){
-		return movementBar;
-	}
-	
-	public ChargeBar getChargeBar(){
-		return chargeBar;
-	}
-	
 	public float getWidth(){
 		return width;
 	}
@@ -126,16 +113,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	public float getHeight(){
 		return height;
 	}
-	
-	public void setChargeBar(ChargeBar cb){
-		chargeBar = cb;
-	}
-	
-	public void setMovementBar(MovementBar mb){
-		movementBar = mb;
-	}
-	
-	
 	
 	public void shootMissile(){
 		turnStep = 4;
@@ -153,15 +130,7 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @param a the a
 	 * @return the bar
 	 */
-	public Bar getBar(int a){
-		switch (a){
-		case 1 : return (Bar) hBar; 
-		case 2 : return (Bar) movementBar; 
-		case 3 : return (Bar) chargeBar; 
-		default : return null;
-		}
-	}
-	
+
 	/**
 	 * Checks for special projectile.
 	 *
@@ -269,10 +238,24 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 			arrow.update( body.getPosition() );
 		}
 		if (turnStep == 4){
-			chargeBar.update();
+			if(charge>60 || charge<0)
+		    {
+		        chargeDir = !chargeDir;
+		    }
+		    if(chargeDir)
+		    	charge++;
+		    else
+		    	charge--;
 		}
+		if (turnStep > 4)
+			charge = 0;
 
 	}
+	
+	public float getCharge(){
+		return charge;
+	}
+	
 	
 	/**
 	 * Seppuku.
@@ -308,7 +291,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 */
 	public void resetTurn(){
 		if (turnStep > 0){
-			getMovementBar().dispose();
 			System.out.println("DISPOSE" + team);
 //			if (!(getWeapon() instanceof Missile)){
 //				getChargeBar().dispose();

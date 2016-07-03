@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.badlogic.gdx.physics.box2d.World;
-import com.worms.bars.ChargeBar;
 import com.worms.projectiles.Grenade;
 
 public class PlayerTest {
@@ -33,7 +32,7 @@ public class PlayerTest {
 		for(int i = 0; i < 30; i++){
 			player.update();
 		}
-		assertTrue("Chequea que se este cargando la potencia",((ChargeBar)(player.getBar(3))).getCharge() != 0);
+		assertTrue("Chequea que se este cargando la potencia",player.getCharge() != 0);
 	}
 
 }

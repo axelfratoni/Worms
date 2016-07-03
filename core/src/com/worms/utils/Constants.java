@@ -17,5 +17,10 @@ public final class Constants {
 	public static final float E_RADIUS_BULLET = 0.5f;
 	public static final float E_RADIUS_MISSILE = 3f;
 
-
+	public static final int BEGINNING_STEP = 0;
+	public static final int MOVEMENT_STEP = 1;
+	public static final int WEAPON_STEP = 2;
+	public static final int ANGLE_STEP = 3;
+	public static final int CHARGING_STEP = 4;
+	public static final int SHOOTING_STEP = 5;
 }
