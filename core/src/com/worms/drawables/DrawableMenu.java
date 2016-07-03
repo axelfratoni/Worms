@@ -1,8 +1,8 @@
-package com.worms.game;
+package com.worms.drawables;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class Commands {
+public class DrawableMenu {
 	
 	private Texture texture1;
 	private Texture texture2;
@@ -13,7 +13,7 @@ public class Commands {
 	/**
 	 * Instantiates a new commands.
 	 */
-	public Commands(){
+	public DrawableMenu(){
 		texture1 = new Texture("Images/Menu1.png");
 		texture2 = new Texture("Images/Menu2.png");
 		texture3 = new Texture("Images/Menu3.png");

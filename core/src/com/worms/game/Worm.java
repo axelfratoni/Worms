@@ -1,7 +1,6 @@
 package com.worms.game;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.worms.projectiles.Bullet;
 import com.worms.projectiles.Grenade;
 import com.worms.projectiles.Missile;
@@ -45,7 +44,7 @@ public class Worm implements Serializable{
  * @param team the team
  * @param specialProjectile the special projectile
  */
-public Worm( String str, World world, int team,  boolean specialProjectile){
+public Worm( String str, int team,  boolean specialProjectile){
 		arrow = new Arrow();
 		this.team = team;
 		this.setSaving(false);
@@ -54,7 +53,7 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		chargeDir = true;
 		this.hasSpecialProjectile = specialProjectile;
 		isFlaggedForDeletion = false;
-		setPlayer(world);
+		setPlayer();
 	}
 	
 	/**
@@ -64,13 +63,13 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @param y the y
 	 * @param world the world
 	 */
-	public void setPlayer( World world){
+	public void setPlayer(){
 		body = null;
 		weapons = new ArrayList<Projectile>();
-		weapons.add(new Grenade(world,  this));
-		weapons.add(new Bullet(world, this));
+		weapons.add(new Grenade(this));
+		weapons.add(new Bullet(this));
 		if (hasSpecialProjectile)
-			weapons.add(new Missile(world, this));
+			weapons.add(new Missile(this));
 	}
 	
 	

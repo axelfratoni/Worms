@@ -3,7 +3,6 @@ package com.worms.projectiles;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
 import com.worms.states.GameState;
 
@@ -11,7 +10,6 @@ import static com.worms.utils.Constants.*;
 
 public class Projectile {
 	private Body body;
-	private World world;
 	private float xplRadius;
 	private float damage;
 	private Worm playerWhoThrewIt;
@@ -26,10 +24,9 @@ public class Projectile {
 	 * @param p the p
 	 * @param damage the damage
 	 */
-	public Projectile( float xplRadius, World world, Worm p, float damage, float w, float h){
+	public Projectile( float xplRadius, Worm p, float damage, float w, float h){
 		width = w;
 		height = h;
-		this.world = world;
 		this.xplRadius = xplRadius;
 		this.damage = damage;
 		playerWhoThrewIt = p;
@@ -115,7 +112,7 @@ public class Projectile {
 	 */
 	public void explode( ){
 		GameState.getBodiesToBeDeleted().add(getBody());
-		new Explosion(xplRadius, damage, body.getPosition(), world);
+		new Explosion(xplRadius, damage, body.getPosition());
 		isFlaggedForDeletion = true;
 	}
 	

@@ -30,22 +30,22 @@ public class Teams {
 		team1 = new ArrayList<Worm>();
 		team2 = new ArrayList<Worm>();
 	
-		team1.add(new Worm( "Images/Redworm.png", world, 1, false));
+		team1.add(new Worm( "Images/Redworm.png", 1, false));
 		team1.get(0).setBody(setBody( 198, 300, team1.get(0), world));
-		team1.add(new Worm( "Images/Redworm.png", world, 1, true));
+		team1.add(new Worm( "Images/Redworm.png", 1, true));
 		team1.get(1).setBody(setBody( 772, 337, team1.get(1), world));
-		team1.add(new Worm( "Images/Redworm.png", world, 1, false));
+		team1.add(new Worm( "Images/Redworm.png", 1, false));
 		team1.get(2).setBody(setBody( 430, 700, team1.get(2), world));
-		team1.add(new Worm( "Images/Redworm.png", world, 1, true));
+		team1.add(new Worm( "Images/Redworm.png", 1, true));
 		team1.get(3).setBody(setBody( 1400, 300, team1.get(3), world));
 	
-		team2.add(new Worm( "Images/Blueworm.png", world, 2, false));
+		team2.add(new Worm( "Images/Blueworm.png", 2, false));
 		team2.get(0).setBody(setBody( 644, 600, team2.get(0), world));
-		team2.add(new Worm( "Images/Blueworm.png", world, 2, true));
+		team2.add(new Worm( "Images/Blueworm.png", 2, true));
 		team2.get(1).setBody(setBody( 1100, 700, team2.get(1), world));
-		team2.add(new Worm( "Images/Blueworm.png", world, 2, false));
+		team2.add(new Worm( "Images/Blueworm.png", 2, false));
 		team2.get(2).setBody(setBody( 246, 432, team2.get(2), world));
-		team2.add(new Worm( "Images/Blueworm.png", world, 2, true));
+		team2.add(new Worm( "Images/Blueworm.png", 2, true));
 		team2.get(3).setBody(setBody( 1400, 432, team2.get(3), world));
 	
 		team1size = team1.size();

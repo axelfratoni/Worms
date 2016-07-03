@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class Tile implements Serializable{
 	private transient Body tile;
 	private boolean deletionFlag;
-	private String texurl;
 	private Rectangle rect;
 	
 	/**

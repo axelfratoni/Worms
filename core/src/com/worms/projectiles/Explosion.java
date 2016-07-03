@@ -1,9 +1,9 @@
 package com.worms.projectiles;
+import java.util.List;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.QueryCallback;
-import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
 import com.worms.game.Teams;
 import com.worms.states.GameState;
@@ -13,7 +13,6 @@ import com.worms.utils.Tile;
 public class Explosion {
 	private float explRadius;
 	private float damage;
-	private World world;
 	private Vector2 pos;
 	private float time;
 
@@ -25,10 +24,9 @@ public class Explosion {
 	 * @param pos the pos
 	 * @param world the world
 	 */
-	public Explosion(float explRadius, float damage, Vector2 pos, World world) {
+	public Explosion(float explRadius, float damage, Vector2 pos) {
 		GameState.setExplosion(this);
 		
-		this.world = world;
 		this.damage = damage;
 		this.explRadius = explRadius;
 		this.pos = pos;
@@ -65,28 +63,25 @@ public class Explosion {
 	 * @return the objects in range
 	 */
 	public void getObjectsInRange(float x, float y, float x2, float y2) {
-		world.QueryAABB(new QueryCallback() {
-	        @Override
-	        public boolean reportFixture(Fixture fixture) {
-        		if(fixture.getUserData() instanceof Worm){
-        			Worm p;
-        			p = (Worm) fixture.getUserData();
-        			if ( getDistance(p.getPlayer().getPosition(), pos) <= explRadius){
-        				p.seppuku(damage);
-        				applyForce(p);
-        			}
-        			return true;
-        		} else if (fixture.getUserData() instanceof Tile){
-        			Tile t;
-        			t = (Tile) fixture.getUserData();
-
-        			if ( getDistance(t.getTile().getPosition(), pos) <= explRadius){
-        				t.flagForDeletion();
-        			}
-        		}
-    		return true;
-	        }
-	    }, Math.min(x, x2), Math.min(y, y2), Math.max(x, x2), Math.max(y, y2));
+		final List<Fixture> bodiesFound = GameState.getObjectsInRange(x, y, x2, y2);
+		
+		for(Fixture fixture : bodiesFound){
+			if(fixture.getUserData() instanceof Worm){
+				Worm p;
+				p = (Worm) fixture.getUserData();
+				if ( getDistance(p.getPlayer().getPosition(), pos) <= explRadius){
+					p.seppuku(damage);
+					applyForce(p);
+				}
+			} else if (fixture.getUserData() instanceof Tile){
+				Tile t;
+				t = (Tile) fixture.getUserData();
+		
+				if ( getDistance(t.getTile().getPosition(), pos) <= explRadius){
+					t.flagForDeletion();
+				}
+			}
+		}
 	}
 	
 	/**

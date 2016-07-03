@@ -8,11 +8,11 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -21,6 +21,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.drawables.Draw;
 import com.worms.drawables.DrawableTile;
@@ -38,14 +40,13 @@ import com.worms.utils.TiledObjectUtil;
 
 public class GameState{
 	
-	private World world;
+	private static World world;
 	private Box2DDebugRenderer b2dr;
 
 	private boolean end;
 	
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
-	private Texture crosshair;
 	
 	private OrthogonalTiledMapRenderer tmr;
 	private TiledMap map;
@@ -90,7 +91,6 @@ public class GameState{
 //		map = new TmxMapLoader().load("Maps/test-map.tmx");
 		tmr = new OrthogonalTiledMapRenderer(map);
 		
-		crosshair = new Texture("Images/Crosshair.png");
 		inputManager = new Controller(world);
 		
 		cameraIsLocked = true;
@@ -230,7 +230,7 @@ public class GameState{
 		}
 		
 		if (!cameraIsLocked && playerWhoseTurnItIs.getWeapon() instanceof Missile){
-			batch.draw(crosshair, camera.position.x - 50 , camera.position.y - 50);
+			drawsManager.drawCrosshead(camera.position.x - 50, camera.position.y - 50);
 		}
 		
 		if ( isExplosionHappening){
@@ -363,4 +363,15 @@ public class GameState{
 		return !(Teams.getTeam(1).isEmpty());
 	}
 	
+	public static List<Fixture> getObjectsInRange(float x, float y, float x2, float y2) {		
+		final List<Fixture> bodiesFound = new ArrayList<Fixture>();
+	    world.QueryAABB(new QueryCallback() {
+	        @Override
+	        public boolean reportFixture(Fixture fixture) {
+	        	bodiesFound.add(fixture);
+	            return true;
+	        }
+	    }, Math.min(x, x2), Math.min(y, y2), Math.max(x, x2), Math.max(y, y2));
+		return bodiesFound;
+	}
 }

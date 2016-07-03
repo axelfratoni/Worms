@@ -1,7 +1,6 @@
 package com.worms.projectiles;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
 
 import static com.worms.utils.Constants.E_RADIUS_BULLET;
@@ -15,8 +14,8 @@ public class Bullet extends Projectile{
 	 * @param world the world
 	 * @param p the p
 	 */
-	public Bullet(World world, Worm p) {
-		super( E_RADIUS_BULLET , world, p, 15f, width, height);
+	public Bullet( Worm p) {
+		super( E_RADIUS_BULLET , p, 15f, width, height);
 		// TODO Auto-generated constructor stub
 	}
 	

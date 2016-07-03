@@ -265,7 +265,7 @@ public class Controller {
 	} else {
 		Missile m;
 		m = (Missile) weapon;
-		m.shoot(player.getMissileX());
+		m.shoot(player.getMissileX(), world);
 	}
 }
 	

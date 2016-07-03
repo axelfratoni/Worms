@@ -7,7 +7,6 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.projectiles.Projectile;
-import com.worms.states.GameState;
 import com.worms.utils.MapLimit;
 import com.worms.utils.Tile;
 

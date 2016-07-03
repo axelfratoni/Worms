@@ -1,21 +1,20 @@
-package com.worms.game;
+package com.worms.test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.badlogic.gdx.physics.box2d.World;
+import com.worms.game.Worm;
 import com.worms.projectiles.Grenade;
 
-public class PlayerTest {
+public class WormTest {
 
-	World world;
 	Worm player;
 	
 	@Before
 	public void create(){
-		player = new Worm( "Images/Redworm.png", world, 1, false);
+		player = new Worm( "Images/Redworm.png", 1, false);
 	}
 	
 	@Test
@@ -32,6 +31,9 @@ public class PlayerTest {
 			player.update();
 		}
 		assertTrue("Chequea que se este cargando la potencia",player.getCharge() != 0);
+		player.seppuku(40);
+		assertTrue("Chequea el daño recibido",player.getHealth() == 60);
+		
 	}
 
 }

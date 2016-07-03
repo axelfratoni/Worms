@@ -2,14 +2,12 @@ package com.worms.drawables;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.worms.game.Commands;
 import com.worms.game.Worm;
 import com.worms.projectiles.Explosion;
 import com.worms.projectiles.Missile;
@@ -24,7 +22,7 @@ public class Draw {
 	private HashMap<String, Texture> textures;
 	private HashMap<String, Sprite> sprites;
 	private ArrayList<Texture> bars;
-	private Commands menu;
+	private DrawableMenu menu;
 	/**
 	 * Instantiates a new draw.
 	 *
@@ -33,7 +31,7 @@ public class Draw {
 	 */
 	public Draw( SpriteBatch batch){
 		this.batch = batch;
-		menu = new Commands();
+		menu = new DrawableMenu();
 		
 		textures = new HashMap<String,Texture>();
 		sprites = new HashMap<String,Sprite>();
@@ -179,4 +177,7 @@ public class Draw {
 	public void drawTile(DrawableTile tile){
 		batch.draw( textures.get(tile.getTypeOfTile()), tile.getPos().x * PPM - textures.get(tile.getTypeOfTile()).getWidth() / 2, tile.getPos().y * PPM - textures.get(tile.getTypeOfTile()).getHeight() / 2);	}
 	
+	public void drawCrosshead(float x, float y){
+		batch.draw(textures.get("Crosshair.png"),x,y);
+	}
 }

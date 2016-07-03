@@ -1,6 +1,5 @@
 package com.worms.projectiles;
 
-import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
 
 import static com.worms.utils.Constants.*;
@@ -16,8 +15,8 @@ public class Grenade extends Projectile{
 	 * @param world the world
 	 * @param p the p
 	 */
-	public Grenade( World world, Worm p) {
-		super( E_RADIUS_GRENADE, world, p, 30f, width, height);
+	public Grenade( Worm p) {
+		super( E_RADIUS_GRENADE,  p, 30f, width, height);
 		// TODO Auto-generated constructor stub
 	}
 	

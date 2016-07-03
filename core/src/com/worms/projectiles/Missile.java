@@ -11,7 +11,6 @@ import static com.worms.utils.Constants.E_RADIUS_MISSILE;
 import static com.worms.utils.Constants.PPM;
 
 public class Missile extends Projectile{
-	private World world;
 	private static float width = 32f;
 	private static float height = 64f;
 	/**
@@ -20,9 +19,8 @@ public class Missile extends Projectile{
 	 * @param world the world
 	 * @param p the p
 	 */
-	public Missile( World world, Worm p) {
-		super(E_RADIUS_MISSILE, world, p, 45f, width, height);
-		this.world = world;
+	public Missile( Worm p) {
+		super(E_RADIUS_MISSILE,  p, 45f, width, height);
 	}
 	
 	/**
@@ -30,7 +28,7 @@ public class Missile extends Projectile{
 	 *
 	 * @param x the x
 	 */
-	public void shoot( float x){
+	public void shoot( float x, World world){
 		super.flagForDeletion();
 		super.setBody(BodyCreators.createBox( x * PPM, 900, width/4, height/4, false, true, world, (short) BIT_PROJECTILE, (short) (BIT_PLAYER | BIT_WALL), (short) 0 , this));
 	}
