@@ -39,11 +39,6 @@ public class Controller {
 	 */
 	public void manageInput(GameState g, Worm player ){
 		
-		if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
-			listener = new WormsTextInputListener();
-			Gdx.input.getTextInput(listener, "Introduzca el nombre del archivo", "SaveGame.sav",null);
-		}
-		
 		if(listener != null && listener.hasInputed()){
 			String savepath = listener.getPath(); 
 			player.setSaving(true);
@@ -139,6 +134,10 @@ public class Controller {
 						verticalForce = 275f;
 						player.getPlayer().applyForceToCenter(0 , verticalForce, false);
 					}
+				}
+				if (Gdx.input.isKeyJustPressed(Input.Keys.Z)){
+					listener = new WormsTextInputListener();
+					Gdx.input.getTextInput(listener, "Introduzca el nombre del archivo", "SaveGame.sav",null);
 				}
 			}
 			

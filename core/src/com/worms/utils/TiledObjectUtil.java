@@ -42,15 +42,15 @@ public class TiledObjectUtil {
 		switch (i){
 		case 1 : 
 			for (MapObject object: objects) {
-				GrassTile gt = new GrassTile();
-				gt.setBody(createTile(object,(Tile) gt));
+				GrassTile gt = new GrassTile(((RectangleMapObject)object).getRectangle());
+				gt.setBody(world);
 				grassTiles.add(gt);
 			}
 			break;
 		case 2 : 
 			for (MapObject object: objects) {
-				DirtTile dt = new DirtTile();
-				dt.setBody(createTile(object,(Tile) dt));
+				DirtTile dt = new DirtTile(((RectangleMapObject)object).getRectangle());
+				dt.setBody(world);
 				dirtTiles.add(dt);
 			}
 			break;
@@ -66,6 +66,7 @@ public class TiledObjectUtil {
 
 	
 	private Body createTile(MapObject object, Tile t) {
+		//SACAR METODO
 		Rectangle rect = ((RectangleMapObject)object).getRectangle();
 		return BodyCreators.createBox(rect.getX()+rect.getWidth()/2, rect.getY() + rect.getHeight()/2, rect.getWidth(), rect.getHeight(), true, true, world, (BIT_WALL), (short) (BIT_PLAYER | BIT_PROJECTILE), (short) 0, t);
 	}
@@ -82,11 +83,11 @@ public class TiledObjectUtil {
 		Tile t;
  		for (Iterator<GrassTile> it = grassTiles.iterator(); it.hasNext(); ) {
  		    t = it.next();
- 		    t.setTile(world);
+ 		    t.setBody(world);
  		}
  		for (Iterator<DirtTile> it = dirtTiles.iterator(); it.hasNext(); ) {
  		    t = it.next();
- 		    t.setTile(world);
+ 		    t.setBody(world);
  		}
 		
 	}

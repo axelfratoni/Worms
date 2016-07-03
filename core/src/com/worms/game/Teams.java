@@ -188,7 +188,8 @@ public class Teams {
 		for (; it.hasNext() && itP.hasNext(); ) {
 		    p = it.next();
 		    pos = itP.next();
-//		    p.setPlayer(pos.x, pos.y, world);
+		    p.setPlayer();
+		    p.setBody(setBody( pos.x, pos.y, p, world));
  		}
 	}
 	

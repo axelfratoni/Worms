@@ -23,8 +23,9 @@ public class Tile implements Serializable{
 	 * @param world the world
 	 * @param texURL the tex url
 	 */
-	public Tile(){
+	public Tile(Rectangle r){
 //		texurl = texURL;
+		rect = r;
 		deletionFlag = false;
 	}
 	
@@ -69,7 +70,7 @@ public class Tile implements Serializable{
 	 *
 	 * @param world the new tile
 	 */
-	public void setTile(World world){
+	public void setBody(World world){
 		this.tile = BodyCreators.createBox(rect.getX()+rect.getWidth()/2, rect.getY() + rect.getHeight()/2, rect.getWidth(), rect.getHeight(), true, true, world, (BIT_WALL), (short) (BIT_PLAYER | BIT_PROJECTILE), (short) 0, this);
 	}
 			

@@ -45,7 +45,6 @@ public class Worm implements Serializable{
  * @param specialProjectile the special projectile
  */
 public Worm( String str, int team,  boolean specialProjectile){
-		arrow = new Arrow();
 		this.team = team;
 		this.setSaving(false);
 		health = 100f;
@@ -65,6 +64,7 @@ public Worm( String str, int team,  boolean specialProjectile){
 	 */
 	public void setPlayer(){
 		body = null;
+		arrow = new Arrow();
 		weapons = new ArrayList<Projectile>();
 		weapons.add(new Grenade(this));
 		weapons.add(new Bullet(this));
