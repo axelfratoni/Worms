@@ -36,7 +36,7 @@ public class WormsContactListener implements ContactListener{
 		if (fb.getUserData() == null || fa.getUserData() == null) return;
 		
 		
-		if (isProjectilePlayerContact( fa, fb)){
+		if (isProjectilePlayerContact( fa, fb) || isProjectileTileContact( fa, fb)){
 			Projectile g;
 			if ( fb.getUserData() instanceof Projectile){
 				g = (Projectile) fb.getUserData();
@@ -45,23 +45,11 @@ public class WormsContactListener implements ContactListener{
 			}
 			if ( !g.getDeletionFlag()){
 				g.explode();
-				GameState.getBodiesToBeDeleted().add(g.getBody());
-			}
-		} else if (isProjectileTileContact( fa, fb)){
-			Projectile g;
-			if ( fa.getUserData() instanceof Projectile){
-				g = (Projectile) fa.getUserData();
-			} else {
-				g = (Projectile) fb.getUserData();
-			}
-			if ( !g.getDeletionFlag()){
-				g.explode();
-				GameState.getBodiesToBeDeleted().add(g.getBody());
 			}
 		} else if (isMapLimitContact(fa,fb)){
 			if ( fa.getUserData() instanceof MapLimit){
 				if ( fb.getUserData() instanceof Projectile){
-					GameState.getBodiesToBeDeleted().add(((Projectile)fb.getUserData()).getBody());
+					((Projectile)fb.getUserData()).touchedMapLimit();
 					Teams.updateTurn();
 				} else if ( fb.getUserData() instanceof Worm){
 					if (Teams.getPlayerWhoseTurnItIs().equals((Worm)fb.getUserData()))
@@ -70,7 +58,7 @@ public class WormsContactListener implements ContactListener{
 				}
 			} else {
 				if ( fa.getUserData() instanceof Projectile){
-					GameState.getBodiesToBeDeleted().add(((Projectile)fa.getUserData()).getBody());
+					((Projectile)fa.getUserData()).touchedMapLimit();
 					Teams.updateTurn();
 				} else if ( fa.getUserData() instanceof Worm){
 					if (Teams.getPlayerWhoseTurnItIs().equals((Worm)fa.getUserData()))

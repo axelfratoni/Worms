@@ -28,7 +28,7 @@ public class Worm implements Serializable{
 	private float health;
 	private float charge;
 	private boolean chargeDir;
-	private boolean isFlaggedForDelete;
+	private boolean isFlaggedForDeletion;
 	private int team;
 	private float missileX;
 	private boolean hasSpecialProjectile;
@@ -53,7 +53,7 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		charge = 0;
 		chargeDir = true;
 		this.hasSpecialProjectile = specialProjectile;
-		isFlaggedForDelete = false;
+		isFlaggedForDeletion = false;
 		setPlayer(world);
 	}
 	
@@ -69,10 +69,8 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		weapons = new ArrayList<Projectile>();
 		weapons.add(new Grenade(world,  this));
 		weapons.add(new Bullet(world, this));
-		if (hasSpecialProjectile){
+		if (hasSpecialProjectile)
 			weapons.add(new Missile(world, this));
-		} else {
-		}
 	}
 	
 	
@@ -114,22 +112,9 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 		return height;
 	}
 	
-	public void shootMissile(){
-		turnStep = 4;
-		nextStep();
-	}
-	
-	
 	public void setStartingPosition(){
 		this.startingPosition = body.getPosition().x;
 	}
-	
-	/**
-	 * Gets the bar.
-	 *
-	 * @param a the a
-	 * @return the bar
-	 */
 
 	/**
 	 * Checks for special projectile.
@@ -234,9 +219,6 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * Update.
 	 */
 	public void update(){
-		if (turnStep >= 3 && !(actualWeapon instanceof Missile)){
-			arrow.update( body.getPosition() );
-		}
 		if (turnStep == 4){
 			if(charge>60 || charge<0)
 		    {
@@ -272,8 +254,8 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * @param tocoMapa the toco mapa
 	 */
 	public void dispose(boolean tocoMapa){
-		if (!isFlaggedForDelete){
-			isFlaggedForDelete = true;
+		if (!isFlaggedForDeletion){
+			isFlaggedForDeletion = true;
 			if ( arrow != null)
 				arrow.dispose();
 			if (tocoMapa)
@@ -290,13 +272,9 @@ public Worm( String str, World world, int team,  boolean specialProjectile){
 	 * Reset turn.
 	 */
 	public void resetTurn(){
-		if (turnStep > 0){
-			System.out.println("DISPOSE" + team);
-//			if (!(getWeapon() instanceof Missile)){
-//				getChargeBar().dispose();
+		if (turnStep > 0 && !(getWeapon() instanceof Missile)){
 				getArrow().dispose();
-//			}
-		}
+			}
 		turnStep = 0;
 	}
 	

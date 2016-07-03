@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.Worm;
+import com.worms.states.GameState;
 
 import static com.worms.utils.Constants.*;
 
@@ -113,10 +114,16 @@ public class Projectile {
 	 * Explode.
 	 */
 	public void explode( ){
+		GameState.getBodiesToBeDeleted().add(getBody());
 		new Explosion(xplRadius, damage, body.getPosition(), world);
 		isFlaggedForDeletion = true;
 	}
 	
+	public void touchedMapLimit(){
+		if (body != null){
+			GameState.getBodiesToBeDeleted().add(getBody());
+		}
+	}
 	/**
 	 * Gets the deletion flag.
 	 *

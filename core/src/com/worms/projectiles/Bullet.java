@@ -25,7 +25,7 @@ public class Bullet extends Projectile{
 	 * @see com.worms.projectiles.Projectile#shoot(com.badlogic.gdx.math.Vector2, float, float)
 	 */
 	public void shoot(float force, float angle, Body b){
+		b.setGravityScale(0);
 		super.shoot( 100, angle, b);
-		super.getBody().setGravityScale(0);
 	}
 }

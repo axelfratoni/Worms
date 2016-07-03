@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.worms.game.Commands;
 import com.worms.game.Worm;
+import com.worms.projectiles.Explosion;
 import com.worms.projectiles.Missile;
 
 import static com.worms.utils.Constants.*;
@@ -164,9 +165,11 @@ public class Draw {
 	 *
 	 * @param explosion the explosion
 	 */
-	public void drawExplosion(DrawableExplosion explosion){
-		batch.draw( textures.get(explosion.getExplosionType()), explosion.getPos().x * PPM - textures.get(explosion.getExplosionType()).getWidth() / 2, explosion.getPos().y * PPM - textures.get(explosion.getExplosionType()).getHeight() / 2);
+	public void drawExplosion(Explosion activeExplosion){
+		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius());
+		batch.draw( textures.get(dE.getExplosionType()), dE.getPos().x * PPM - textures.get(dE.getExplosionType()).getWidth() / 2, dE.getPos().y * PPM - textures.get(dE.getExplosionType()).getHeight() / 2);
 	}
+	
 	
 	/**
 	 * Draw tile.

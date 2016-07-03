@@ -55,49 +55,5 @@ public class BodyCreators {
 		return pBody;
 	}
 	
-	/**
-	 * Creates the sphere.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param radius the radius
-	 * @param isStatic the is static
-	 * @param fixedRotation the fixed rotation
-	 * @param world the world
-	 * @param cBits the c bits
-	 * @param mBits the m bits
-	 * @param gIndex the g index
-	 * @param o the o
-	 * @return the body
-	 */
-	public static Body createSphere(float x, float y, float radius, boolean isStatic, boolean fixedRotation, World world, short  cBits, short mBits, short gIndex, Object o){
-		Body pBody;
-		BodyDef bdef = new BodyDef();
-		
-		if (isStatic){
-			bdef.type = BodyDef.BodyType.StaticBody;
-		} else {
-			bdef.type = BodyDef.BodyType.DynamicBody;
-		}
-		
-		bdef.position.set( x / PPM, y / PPM );
-		bdef.fixedRotation = fixedRotation;
-		pBody = world.createBody( bdef);
-		
-		CircleShape shape = new CircleShape();
-		shape.setRadius( radius);
-
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = shape;
-		fixtureDef.density = 1f;
-		fixtureDef.filter.categoryBits = cBits; // Is a
-		fixtureDef.filter.maskBits = mBits; // Collides with
-		fixtureDef.filter.groupIndex = gIndex;
-		pBody = world.createBody(bdef);
-		pBody.createFixture(fixtureDef).setUserData(o);
-		shape.dispose();
-		
-		return pBody;
-	}
 	
 }

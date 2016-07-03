@@ -23,7 +23,6 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.drawables.Draw;
-import com.worms.drawables.DrawableExplosion;
 import com.worms.drawables.DrawableTile;
 import com.worms.game.InputManager;
 import com.worms.game.Worm;
@@ -65,7 +64,6 @@ public class GameState{
 	private int i;
 	private static boolean isExplosionHappening;
 	private static boolean cameraIsLocked;
-	private static boolean shoot;
 	
 	
 	/**
@@ -96,7 +94,6 @@ public class GameState{
 		inputManager = new InputManager(world);
 		
 		cameraIsLocked = true;
-		shoot = false;
 		
 		tiledObjectUtil = new TiledObjectUtil(world);
 		tiledObjectUtil.parseTiledObjectLayer( map.getLayers().get("map-limit").getObjects(), 3);
@@ -156,10 +153,7 @@ public class GameState{
 			
 			position = inputManager.manageInput(this, position, false, playerWhoseTurnItIs);
 			playerWhoseTurnItIs.giveCoordinate(position.x);
-			if (shoot){
-				playerWhoseTurnItIs.shootMissile();
-				shoot = false;
-			}
+
 		} else {
 			position = inputManager.manageInput(this, position, true, playerWhoseTurnItIs);
 		}
@@ -190,9 +184,6 @@ public class GameState{
 		world.step( 1/60f, 6, 2);
 
 		sweepBodies();
-		
-//		if(playerWhoseTurnItIs.getStep() == 0)
-//			playerWhoseTurnItIs.nextStep();
 		
 		cameraUpdate(delta);
 		tmr.setView(camera);
@@ -243,25 +234,12 @@ public class GameState{
 		}
 		
 		if ( isExplosionHappening){
-			drawExplosion();
+			drawsManager.drawExplosion(activeExplosion);
 		}
 //		DebugString.draw( playerWhoseTurnItIs.getWeapon().getTex().toString(), camera);
 		
 	}
 	
-	/**
-	 * Draw explosion.
-	 */
-	public void drawExplosion(){
-		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius());
-		drawsManager.drawExplosion(dE);
-	}
-	
-	/**
-	 * Draw.
-	 *
-	 * @param player that's going to be drawn
-	 */
 
 	
 	/**
@@ -309,10 +287,7 @@ public class GameState{
 	 * Switch camera status.
 	 */
 	public static void switchCameraStatus(){
-		if (cameraIsLocked)
-			cameraIsLocked = false;
-		else
-			cameraIsLocked = true;
+		cameraIsLocked = !(cameraIsLocked);
 	}
 	
 	/**
@@ -323,7 +298,6 @@ public class GameState{
 		return bodiesToBeDeleted;
 	}
 	
-
 	/**
 	 * Save game.
 	 *

@@ -12,7 +12,6 @@ public class PlayerTest {
 
 	World world;
 	Worm player;
-	static { System.loadLibrary("gdx");}
 	
 	@Before
 	public void create(){
@@ -21,7 +20,7 @@ public class PlayerTest {
 	
 	@Test
 	public void testPlayer() {
-		assertEquals("Empieza con 100 de vida", 100, player.getHealth());
+		assertEquals(100,player.getHealth(),1);
 		player.nextStep();
 		player.nextStep();
 		player.selectWeapon(1);
@@ -29,10 +28,6 @@ public class PlayerTest {
 		player.nextStep();
 		assertNotNull("Chequea que se creo la flecha", player.getArrow());
 		player.nextStep();
-		for(int i = 0; i < 30; i++){
-			player.update();
-		}
-		assertTrue("Chequea que se este cargando la potencia",player.getCharge() != 0);
 	}
 
 }

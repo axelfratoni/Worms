@@ -14,13 +14,8 @@ public class Arrow {
 	/**
 	 * Instantiates a new arrow.
 	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param world the world
 	 */
 	public Arrow(){
-		
-		
 	}
 	
 	public void setBody(Body b){
@@ -65,16 +60,6 @@ public class Arrow {
 
 	}
 	
-	
-	/**
-	 * Update.
-	 *
-	 * @param pos the pos
-	 */
-	public void update(Vector2 pos){
-		arrow.setTransform ( pos, arrow.getAngle() );
-	}
-	
 	/**
 	 * Gets the tip.
 	 *
@@ -96,12 +81,12 @@ public class Arrow {
 		return arrow;
 	}
 	
-	
 	/**
 	 * Dispose.
 	 */
 	public void dispose(){
-		GameState.getBodiesToBeDeleted().add(arrow);
+		if (arrow != null)
+			GameState.getBodiesToBeDeleted().add(arrow);
 	}
 	
 }

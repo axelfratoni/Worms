@@ -1,11 +1,19 @@
 package com.worms.utils;
 
+import static com.worms.utils.Constants.BIT_PLAYER;
+import static com.worms.utils.Constants.BIT_PROJECTILE;
+import static com.worms.utils.Constants.BIT_WALL;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.worms.game.BodyCreators;
 
 public class TiledObjectUtil {
 	
@@ -30,16 +38,20 @@ public class TiledObjectUtil {
 	 * @param objects the objects
 	 * @param i the i
 	 */
-	public  void parseTiledObjectLayer(MapObjects objects, int i){
+	public void parseTiledObjectLayer(MapObjects objects, int i){
 		switch (i){
 		case 1 : 
 			for (MapObject object: objects) {
-				grassTiles.add(new GrassTile (object, world));
+				GrassTile gt = new GrassTile();
+				gt.setBody(createTile(object,(Tile) gt));
+				grassTiles.add(gt);
 			}
 			break;
 		case 2 : 
 			for (MapObject object: objects) {
-				dirtTiles.add(new DirtTile (object, world));
+				DirtTile dt = new DirtTile();
+				dt.setBody(createTile(object,(Tile) dt));
+				dirtTiles.add(dt);
 			}
 			break;
 		case 3 : 
@@ -51,6 +63,13 @@ public class TiledObjectUtil {
 		}
 	}
 	
+
+	
+	private Body createTile(MapObject object, Tile t) {
+		Rectangle rect = ((RectangleMapObject)object).getRectangle();
+		return BodyCreators.createBox(rect.getX()+rect.getWidth()/2, rect.getY() + rect.getHeight()/2, rect.getWidth(), rect.getHeight(), true, true, world, (BIT_WALL), (short) (BIT_PLAYER | BIT_PROJECTILE), (short) 0, t);
+	}
+
 	/**
 	 * Parses the tiled object layer.
 	 *
