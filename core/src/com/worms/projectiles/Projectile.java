@@ -8,6 +8,7 @@ import com.worms.states.GameState;
 
 import static com.worms.utils.Constants.*;
 
+// TODO: Auto-generated Javadoc
 public class Projectile {
 	private Body body;
 	private float xplRadius;
@@ -16,13 +17,15 @@ public class Projectile {
 	private boolean isFlaggedForDeletion;
 	private float width;
 	private float height;
+	
 	/**
 	 * Instantiates a new projectile.
 	 *
 	 * @param xplRadius the xpl radius
-	 * @param world the world
 	 * @param p the p
 	 * @param damage the damage
+	 * @param w the w
+	 * @param h the h
 	 */
 	public Projectile( float xplRadius, Worm p, float damage, float w, float h){
 		width = w;
@@ -86,19 +89,30 @@ public class Projectile {
 		return body;
 	}
 	
+	/**
+	 * Gets the width.
+	 *
+	 * @return the width
+	 */
 	public float getWidth(){
 		return width;
 	}
 	
+	/**
+	 * Gets the height.
+	 *
+	 * @return the height
+	 */
 	public float getHeight(){
 		return height;
 	}
+	
 	/**
 	 * Shoot.
 	 *
-	 * @param pos the pos
 	 * @param force the force
 	 * @param angle the angle
+	 * @param b the b
 	 */
 	public void shoot( float force, float angle, Body b){
 		isFlaggedForDeletion = false;
@@ -116,6 +130,9 @@ public class Projectile {
 		isFlaggedForDeletion = true;
 	}
 	
+	/**
+	 * Touched map limit.
+	 */
 	public void touchedMapLimit(){
 		if (body != null){
 			GameState.getBodiesToBeDeleted().add(getBody());

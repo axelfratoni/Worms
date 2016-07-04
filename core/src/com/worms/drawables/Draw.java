@@ -17,17 +17,18 @@ import static com.worms.utils.Constants.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// TODO: Auto-generated Javadoc
 public class Draw {
 	private SpriteBatch batch;
 	private HashMap<String, Texture> textures;
 	private HashMap<String, Sprite> sprites;
 	private ArrayList<Texture> bars;
 	private DrawableMenu menu;
+	
 	/**
 	 * Instantiates a new draw.
 	 *
 	 * @param batch the batch
-	 * @param world the world
 	 */
 	public Draw( SpriteBatch batch){
 		this.batch = batch;
@@ -57,6 +58,16 @@ public class Draw {
 		bars.add(new Texture(createProceduralPixmap(1,1, 0, 0, 1))); // Textura azul
 	}
 	
+	/**
+	 * Creates the procedural pixmap.
+	 *
+	 * @param width the width
+	 * @param height the height
+	 * @param r the r
+	 * @param g the g
+	 * @param b the b
+	 * @return the pixmap
+	 */
 	private Pixmap createProceduralPixmap (int width, int height,int r,int g,int b) {
         Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
 
@@ -66,6 +77,11 @@ public class Draw {
         return pixmap;
     }
 	
+	/**
+	 * Draw.
+	 *
+	 * @param p the p
+	 */
 	public void draw(Worm p){
 		Vector2 pos = new Vector2(p.getX(),p.getY());
 		DrawablePlayer dp = new DrawablePlayer(p.getPlayer().getPosition(), p.getTeam());
@@ -161,7 +177,7 @@ public class Draw {
 	/**
 	 * Draw explosion.
 	 *
-	 * @param explosion the explosion
+	 * @param activeExplosion the active explosion
 	 */
 	public void drawExplosion(Explosion activeExplosion){
 		DrawableExplosion dE = new DrawableExplosion(activeExplosion.getPos(), activeExplosion.getExplRadius());
@@ -177,6 +193,12 @@ public class Draw {
 	public void drawTile(DrawableTile tile){
 		batch.draw( textures.get(tile.getTypeOfTile()), tile.getPos().x * PPM - textures.get(tile.getTypeOfTile()).getWidth() / 2, tile.getPos().y * PPM - textures.get(tile.getTypeOfTile()).getHeight() / 2);	}
 	
+	/**
+	 * Draw crosshead.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 */
 	public void drawCrosshead(float x, float y){
 		batch.draw(textures.get("Crosshair.png"),x,y);
 	}

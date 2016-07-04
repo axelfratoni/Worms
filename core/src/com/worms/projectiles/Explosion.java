@@ -10,6 +10,7 @@ import com.worms.states.GameState;
 import com.worms.utils.Tile;
 
 
+// TODO: Auto-generated Javadoc
 public class Explosion {
 	private float explRadius;
 	private float damage;
@@ -22,7 +23,6 @@ public class Explosion {
 	 * @param explRadius the expl radius
 	 * @param damage the damage
 	 * @param pos the pos
-	 * @param world the world
 	 */
 	public Explosion(float explRadius, float damage, Vector2 pos) {
 		GameState.setExplosion(this);
