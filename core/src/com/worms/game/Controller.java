@@ -15,6 +15,7 @@ import com.worms.states.GameState;
 import static com.worms.utils.Constants.*;
 import com.worms.utils.WormsTextInputListener;
 
+// TODO: Auto-generated Javadoc
 public class Controller {
 	
 	WormsTextInputListener listener = null;
@@ -22,9 +23,18 @@ public class Controller {
 	private World world;
 	private boolean a = true; 
 	
+	/**
+	 * Instantiates a new controller.
+	 */
 	public Controller(){
 		this.world = null;
 	}
+	
+	/**
+	 * Instantiates a new controller.
+	 *
+	 * @param world the world
+	 */
 	public Controller(World world){
 		this.world = world;
 	}
@@ -161,6 +171,7 @@ public class Controller {
 	 * @param g the g
 	 * @param pos the pos
 	 * @param a the a
+	 * @param player the player
 	 * @return the vector3
 	 */
 	public Vector3 manageInput(GameState g, Vector3 pos, boolean a, Worm player){
@@ -239,6 +250,11 @@ public class Controller {
 		return false;
 	}
 	
+	/**
+	 * Next step.
+	 *
+	 * @param player the player
+	 */
 	public void nextStep( Worm player){
 		int turnStep = player.getStep();
 		
@@ -256,6 +272,11 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Shoot.
+	 *
+	 * @param player the player
+	 */
 	public void shoot(Worm player){
 	Projectile weapon = player.getWeapon();
 	if ( !(weapon instanceof Missile)){

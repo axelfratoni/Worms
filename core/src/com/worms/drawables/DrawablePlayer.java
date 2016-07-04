@@ -2,15 +2,17 @@ package com.worms.drawables;
 
 import com.badlogic.gdx.math.Vector2;
 
+// TODO: Auto-generated Javadoc
 public class DrawablePlayer {
 
 	private Vector2 pos;
 	private String playersTeam;
+	
 	/**
 	 * Instantiates a new drawable player.
 	 *
 	 * @param pos the pos
-	 * @param tex the tex
+	 * @param team the team
 	 */
 	public DrawablePlayer(Vector2 pos, int team){
 		this.pos = pos;
@@ -30,6 +32,11 @@ public class DrawablePlayer {
 		return pos;
 	}
 	
+	/**
+	 * Gets the players team.
+	 *
+	 * @return the players team
+	 */
 	public String getPlayersTeam(){
 		return playersTeam;
 	}

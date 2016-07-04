@@ -10,8 +10,7 @@ public class DirtTile extends Tile implements Serializable {
 	/**
 	 * Instantiates a new dirt tile.
 	 *
-	 * @param object the object
-	 * @param world the world
+	 * @param r the r
 	 */
 	public DirtTile(Rectangle r) {
 		super(r);

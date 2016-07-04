@@ -2,15 +2,16 @@ package com.worms.drawables;
 
 import com.badlogic.gdx.math.Vector2;
 
+// TODO: Auto-generated Javadoc
 public class DrawableArrow {
 
 	private Vector2 pos;
 	private float angle;
+	
 	/**
 	 * Instantiates a new drawable arrow.
 	 *
 	 * @param pos the pos
-	 * @param tex the tex
 	 * @param angle the angle
 	 */
 	public DrawableArrow(Vector2 pos, float angle){

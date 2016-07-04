@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.worms.game.Controller;
 
+// TODO: Auto-generated Javadoc
 public class EndState {
 	
 	private SpriteBatch batch;

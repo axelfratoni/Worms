@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import static com.worms.utils.Constants.*;
 
+// TODO: Auto-generated Javadoc
 public class Teams {
 	
 	private static ArrayList<Worm> team1;
@@ -55,6 +56,15 @@ public class Teams {
 	return false;
 	}
 	
+	/**
+	 * Sets the body.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param w the w
+	 * @param world the world
+	 * @return the body
+	 */
 	public static Body setBody(float x, float y, Worm w, World world){
 		return BodyCreators.createBox( x, y, (float) 32, (float) 32, false, true, world, BIT_PLAYER, (short) (BIT_WALL | BIT_PROJECTILE | BIT_EXPLOSION), (short) 0, w);
 	}

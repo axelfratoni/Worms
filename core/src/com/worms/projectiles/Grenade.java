@@ -12,7 +12,6 @@ public class Grenade extends Projectile{
 	/**
 	 * Instantiates a new grenade.
 	 *
-	 * @param world the world
 	 * @param p the p
 	 */
 	public Grenade( Worm p) {

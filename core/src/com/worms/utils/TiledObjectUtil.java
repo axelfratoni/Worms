@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.worms.game.BodyCreators;
 
+// TODO: Auto-generated Javadoc
 public class TiledObjectUtil {
 	
 	private World world;
@@ -65,6 +66,13 @@ public class TiledObjectUtil {
 	
 
 	
+	/**
+	 * Creates the tile.
+	 *
+	 * @param object the object
+	 * @param t the t
+	 * @return the body
+	 */
 	private Body createTile(MapObject object, Tile t) {
 		//SACAR METODO
 		Rectangle rect = ((RectangleMapObject)object).getRectangle();

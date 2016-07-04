@@ -10,6 +10,7 @@ import static com.worms.utils.Constants.*;
 
 import java.io.Serializable;
 
+// TODO: Auto-generated Javadoc
 @SuppressWarnings("serial")
 public class Tile implements Serializable{
 	private transient Body tile;
@@ -19,9 +20,7 @@ public class Tile implements Serializable{
 	/**
 	 * Instantiates a new tile.
 	 *
-	 * @param object the object
-	 * @param world the world
-	 * @param texURL the tex url
+	 * @param r the r
 	 */
 	public Tile(Rectangle r){
 //		texurl = texURL;
@@ -36,6 +35,11 @@ public class Tile implements Serializable{
 		deletionFlag = true;
 	}
 	
+	/**
+	 * Sets the body.
+	 *
+	 * @param body the new body
+	 */
 	public void setBody(Body body){
 		this.tile = body;
 	}

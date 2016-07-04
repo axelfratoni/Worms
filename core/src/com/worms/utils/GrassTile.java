@@ -11,8 +11,7 @@ public class GrassTile extends Tile implements Serializable{
 	/**
 	 * Instantiates a new grass tile.
 	 *
-	 * @param object the object
-	 * @param world the world
+	 * @param r the r
 	 */
 	public GrassTile(Rectangle r) {
 		super(r);

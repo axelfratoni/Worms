@@ -38,6 +38,7 @@ import com.worms.utils.GrassTile;
 import com.worms.utils.Tile;
 import com.worms.utils.TiledObjectUtil;
 
+// TODO: Auto-generated Javadoc
 public class GameState{
 	
 	private static World world;
@@ -325,7 +326,7 @@ public class GameState{
 	/**
 	 * Load game.
 	 *
-	 * @param path 
+	 * @param path the path
 	 * @return the string
 	 */
 	@SuppressWarnings("unchecked")
@@ -363,6 +364,15 @@ public class GameState{
 		return !(Teams.getTeam(1).isEmpty());
 	}
 	
+	/**
+	 * Gets the objects in range.
+	 *
+	 * @param x the x
+	 * @param y the y
+	 * @param x2 the x2
+	 * @param y2 the y2
+	 * @return the objects in range
+	 */
 	public static List<Fixture> getObjectsInRange(float x, float y, float x2, float y2) {		
 		final List<Fixture> bodiesFound = new ArrayList<Fixture>();
 	    world.QueryAABB(new QueryCallback() {

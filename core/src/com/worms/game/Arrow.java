@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.worms.states.GameState;
 
+// TODO: Auto-generated Javadoc
 public class Arrow {
 	private Body arrow;
 	private static float height = 5f;
@@ -18,6 +19,11 @@ public class Arrow {
 	public Arrow(){
 	}
 	
+	/**
+	 * Sets the body.
+	 *
+	 * @param b the new body
+	 */
 	public void setBody(Body b){
 		arrow = b;
 		arrow.setGravityScale( 0f);
@@ -31,10 +37,20 @@ public class Arrow {
 		return arrow.getAngle() * MathUtils.radiansToDegrees;
 	}
 	
+	/**
+	 * Gets the width.
+	 *
+	 * @return the width
+	 */
 	public float getWidth(){
 		return width;
 	}
 	
+	/**
+	 * Gets the height.
+	 *
+	 * @return the height
+	 */
 	public float getHeight(){
 		return height;
 	}

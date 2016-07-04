@@ -5,13 +5,14 @@ import com.worms.game.Worm;
 
 import static com.worms.utils.Constants.E_RADIUS_BULLET;
 
+// TODO: Auto-generated Javadoc
 public class Bullet extends Projectile{
 	private static float width = 6f;
 	private static float height = 6f;
+	
 	/**
 	 * Instantiates a new bullet.
 	 *
-	 * @param world the world
 	 * @param p the p
 	 */
 	public Bullet( Worm p) {

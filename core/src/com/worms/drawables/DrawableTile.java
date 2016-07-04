@@ -4,14 +4,16 @@ import com.badlogic.gdx.math.Vector2;
 import com.worms.utils.GrassTile;
 import com.worms.utils.Tile;
 
+// TODO: Auto-generated Javadoc
 public class DrawableTile {
 	private Vector2 pos;
 	private String typeOfTile;
+	
 	/**
 	 * Instantiates a new drawable tile.
 	 *
 	 * @param pos the pos
-	 * @param tex the tex
+	 * @param t the t
 	 */
 	public DrawableTile( Vector2 pos, Tile t){
 		this.pos = pos;

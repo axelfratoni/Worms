@@ -3,6 +3,7 @@ package com.worms.drawables;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+// TODO: Auto-generated Javadoc
 public class DrawableBar {
 
 	private Texture barAbove, barBelow;

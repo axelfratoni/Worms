@@ -3,16 +3,17 @@ package com.worms.drawables;
 import com.badlogic.gdx.math.Vector2;
 import static com.worms.utils.Constants.*;
 
+// TODO: Auto-generated Javadoc
 public class DrawableExplosion {
 	
 	private Vector2 pos;
 	private String explosionType;
+	
 	/**
 	 * Instantiates a new drawable explosion.
 	 *
 	 * @param pos the pos
 	 * @param radius the radius
-	 * @param tex the tex
 	 */
 	public DrawableExplosion( Vector2 pos, float radius){
 		this.pos = pos;

@@ -12,6 +12,7 @@ import static com.worms.utils.Constants.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+// TODO: Auto-generated Javadoc
 @SuppressWarnings("serial")
 public class Worm implements Serializable{
 	
@@ -34,13 +35,11 @@ public class Worm implements Serializable{
 	
 	private static float height = 32;
 	private static float width = 32;
+
 /**
  * Instantiates a new body.
  *
- * @param x the x
- * @param y the y
  * @param str the str
- * @param world the world
  * @param team the team
  * @param specialProjectile the special projectile
  */
@@ -57,10 +56,6 @@ public Worm( String str, int team,  boolean specialProjectile){
 	
 	/**
 	 * Sets the body.
-	 *
-	 * @param x the x
-	 * @param y the y
-	 * @param world the world
 	 */
 	public void setPlayer(){
 		body = null;
@@ -82,6 +77,11 @@ public Worm( String str, int team,  boolean specialProjectile){
 		return body;
 	}
 	
+	/**
+	 * Sets the body.
+	 *
+	 * @param b the new body
+	 */
 	public void setBody(Body b){
 		if (body == null){
 			body = b;
@@ -103,14 +103,27 @@ public Worm( String str, int team,  boolean specialProjectile){
 		return turnStep;
 	}
 	
+	/**
+	 * Gets the width.
+	 *
+	 * @return the width
+	 */
 	public float getWidth(){
 		return width;
 	}
 	
+	/**
+	 * Gets the height.
+	 *
+	 * @return the height
+	 */
 	public float getHeight(){
 		return height;
 	}
 	
+	/**
+	 * Sets the starting position.
+	 */
 	public void setStartingPosition(){
 		this.startingPosition = body.getPosition().x;
 	}
@@ -233,6 +246,11 @@ public Worm( String str, int team,  boolean specialProjectile){
 
 	}
 	
+	/**
+	 * Gets the charge.
+	 *
+	 * @return the charge
+	 */
 	public float getCharge(){
 		return charge;
 	}
@@ -263,6 +281,11 @@ public Worm( String str, int team,  boolean specialProjectile){
 		}
 	}
 	
+	/**
+	 * Gets the team.
+	 *
+	 * @return the team
+	 */
 	public int getTeam(){
 		return team;
 	}
@@ -313,6 +336,11 @@ public Worm( String str, int team,  boolean specialProjectile){
 		this.savePath = savePath;
 	}
 
+	/**
+	 * Gets the missile x.
+	 *
+	 * @return the missile x
+	 */
 	public float getMissileX() {
 		return missileX;
 	}
